@@ -1,0 +1,84 @@
+
+{
+  "entities": {
+    "NewsArticle": {
+      "title": "News Article",
+      "description": "A blog post or news update for the NGO",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "excerpt": { "type": "string" },
+        "content": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "author": { "type": "string" },
+        "category": { "type": "string" },
+        "image": { "type": "string" },
+        "status": { "type": "string", "enum": ["draft", "published"] }
+      },
+      "required": ["title", "content", "date"]
+    },
+    "Program": {
+      "title": "Program",
+      "description": "A humanitarian program run by the NGO",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "icon": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "color": { "type": "string" }
+      },
+      "required": ["title", "description"]
+    },
+    "VolunteerApplication": {
+      "title": "Volunteer Application",
+      "description": "A request to join the NGO as a volunteer",
+      "type": "object",
+      "properties": {
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "skills": { "type": "array", "items": { "type": "string" } },
+        "motivation": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "reviewed", "accepted", "rejected"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["firstName", "lastName", "email"]
+    },
+    "Donation": {
+      "title": "Donation",
+      "description": "A financial contribution to the NGO",
+      "type": "object",
+      "properties": {
+        "amount": { "type": "number" },
+        "frequency": { "type": "string", "enum": ["once", "monthly"] },
+        "donorEmail": { "type": "string", "format": "email" },
+        "paymentMethod": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["amount", "donorEmail"]
+    }
+  },
+  "auth": {
+    "providers": ["google.com", "password"]
+  },
+  "firestore": {
+    "/news/{newsId}": {
+      "schema": "NewsArticle",
+      "description": "Collection of news articles"
+    },
+    "/programs/{programId}": {
+      "schema": "Program",
+      "description": "Collection of humanitarian programs"
+    },
+    "/volunteers/{volunteerId}": {
+      "schema": "VolunteerApplication",
+      "description": "Collection of volunteer applications"
+    },
+    "/donations/{donationId}": {
+      "schema": "Donation",
+      "description": "Collection of received donations"
+    }
+  }
+}
