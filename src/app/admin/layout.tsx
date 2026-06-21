@@ -1,4 +1,7 @@
 
+'use client';
+
+import * as React from "react"
 import { 
   LayoutDashboard, 
   Newspaper, 
@@ -7,109 +10,141 @@ import {
   Coins, 
   Settings,
   LogOut,
-  Bell
+  Bell,
+  Menu,
+  ExternalLink as ExternalLinkIcon
 } from "lucide-react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { cn } from "@/lib/utils"
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
+  const pathname = usePathname()
+
+  const sidebarLinks = [
+    { href: "/admin", icon: LayoutDashboard, label: "Tableau de bord" },
+    { href: "/admin/news", icon: Newspaper, label: "Actualités" },
+    { href: "/admin/programs", icon: HeartHandshake, label: "Programmes" },
+    { href: "/admin/volunteers", icon: Users, label: "Bénévoles" },
+    { href: "/admin/donations", icon: Coins, label: "Dons" },
+  ]
+
+  const SidebarContent = () => (
+    <div className="flex flex-col h-full">
+      <div className="p-8 border-b">
+        <Link href="/admin" className="flex items-center space-x-2" onClick={() => setIsMobileMenuOpen(false)}>
+          <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
+            <span className="text-white font-bold text-sm">F</span>
+          </div>
+          <span className="font-headline font-bold text-xl">Admin FFG</span>
+        </Link>
+      </div>
+      
+      <nav className="flex-grow p-6 space-y-2">
+        {sidebarLinks.map((link) => (
+          <SidebarLink 
+            key={link.href}
+            href={link.href} 
+            icon={link.icon} 
+            label={link.label} 
+            active={pathname === link.href}
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+        ))}
+        <div className="pt-4 border-t mt-4">
+          <SidebarLink 
+            href="/admin/settings" 
+            icon={Settings} 
+            label="Paramètres" 
+            active={pathname === "/admin/settings"}
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+        </div>
+      </nav>
+
+      <div className="p-6 border-t space-y-4">
+        <div className="flex items-center gap-3 px-3">
+          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+            AD
+          </div>
+          <div className="flex-grow overflow-hidden">
+            <p className="text-sm font-bold truncate">Admin FFG-VE</p>
+            <p className="text-xs text-muted-foreground truncate">admin@ffg-ve.org</p>
+          </div>
+        </div>
+        <Button variant="ghost" className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/5 gap-3">
+          <LogOut className="h-4 w-4" /> Déconnexion
+        </Button>
+      </div>
+    </div>
+  )
+
   return (
     <div className="flex min-h-screen bg-zinc-50 dark:bg-zinc-950">
-      {/* Admin Sidebar */}
-      <aside className="w-72 bg-white dark:bg-zinc-900 border-r flex flex-col hidden lg:flex">
-        <div className="p-8 border-b">
-          <Link href="/admin" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
-              <span className="text-white font-bold">F</span>
-            </div>
-            <span className="font-headline font-bold text-xl">Admin Panel</span>
-          </Link>
-        </div>
-        
-        <nav className="flex-grow p-6 space-y-2">
-          <SidebarLink href="/admin" icon={LayoutDashboard} label="Tableau de bord" active />
-          <SidebarLink href="/admin/news" icon={Newspaper} label="Actualités" />
-          <SidebarLink href="/admin/programs" icon={HeartHandshake} label="Programmes" />
-          <SidebarLink href="/admin/volunteers" icon={Users} label="Bénévoles" />
-          <SidebarLink href="/admin/donations" icon={Coins} label="Dons" />
-          <div className="pt-4 border-t mt-4">
-            <SidebarLink href="/admin/settings" icon={Settings} label="Paramètres" />
-          </div>
-        </nav>
-
-        <div className="p-6 border-t space-y-4">
-          <div className="flex items-center gap-3 px-3">
-            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
-              AD
-            </div>
-            <div className="flex-grow">
-              <p className="text-sm font-bold">Admin FFG-VE</p>
-              <p className="text-xs text-muted-foreground">admin@ffg-ve.org</p>
-            </div>
-          </div>
-          <Button variant="ghost" className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/5 gap-3">
-            <LogOut className="h-4 w-4" /> Déconnexion
-          </Button>
-        </div>
+      {/* Desktop Sidebar */}
+      <aside className="w-72 bg-white dark:bg-zinc-900 border-r hidden lg:flex flex-col fixed inset-y-0">
+        <SidebarContent />
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-grow flex flex-col">
-        <header className="h-20 bg-white dark:bg-zinc-900 border-b flex items-center justify-between px-8">
-          <h2 className="text-sm font-medium text-muted-foreground">Vue d'ensemble</h2>
+      <div className="flex-grow lg:pl-72 flex flex-col min-h-screen">
+        <header className="h-20 bg-white dark:bg-zinc-900 border-b flex items-center justify-between px-4 md:px-8 sticky top-0 z-40">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" className="relative">
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="lg:hidden">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="p-0 w-72">
+                <SidebarContent />
+              </SheetContent>
+            </Sheet>
+            <h2 className="text-sm md:text-base font-bold text-foreground">
+              {sidebarLinks.find(l => l.href === pathname)?.label || "Administration"}
+            </h2>
+          </div>
+          
+          <div className="flex items-center gap-2 md:gap-4">
+            <Button variant="ghost" size="icon" className="relative hidden sm:flex">
               <Bell className="h-5 w-5" />
               <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
             </Button>
             <Link href="/" target="_blank">
               <Button variant="outline" size="sm" className="gap-2">
-                <ExternalLink className="h-4 w-4" /> Voir le site
+                <ExternalLinkIcon className="h-4 w-4" /> <span className="hidden sm:inline">Voir le site</span>
               </Button>
             </Link>
           </div>
         </header>
-        <div className="overflow-y-auto h-[calc(100vh-80px)]">
-          {children}
-        </div>
-      </main>
+
+        <main className="flex-grow p-4 md:p-8">
+          <div className="max-w-7xl mx-auto">
+            {children}
+          </div>
+        </main>
+      </div>
     </div>
   )
 }
 
-function SidebarLink({ href, icon: Icon, label, active = false }: { href: string, icon: any, label: string, active?: boolean }) {
+function SidebarLink({ href, icon: Icon, label, active = false, onClick }: { href: string, icon: any, label: string, active?: boolean, onClick?: () => void }) {
   return (
     <Link 
       href={href} 
-      className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+      onClick={onClick}
+      className={cn(
+        "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all",
         active 
           ? "bg-primary text-white shadow-md shadow-primary/20" 
           : "text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground"
-      }`}
+      )}
     >
       <Icon className="h-5 w-5" />
       {label}
     </Link>
-  )
-}
-
-function ExternalLink(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M15 3h6v6" />
-      <path d="M10 14 21 3" />
-      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-    </svg>
   )
 }
