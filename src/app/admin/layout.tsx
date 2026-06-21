@@ -12,7 +12,8 @@ import {
   LogOut,
   Bell,
   Menu,
-  ExternalLink as ExternalLinkIcon
+  ExternalLink as ExternalLinkIcon,
+  Info
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -28,6 +29,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: "/admin", icon: LayoutDashboard, label: "Tableau de bord" },
     { href: "/admin/news", icon: Newspaper, label: "Actualités" },
     { href: "/admin/programs", icon: HeartHandshake, label: "Programmes" },
+    { href: "/admin/about", icon: Info, label: "À Propos" },
     { href: "/admin/volunteers", icon: Users, label: "Bénévoles" },
     { href: "/admin/donations", icon: Coins, label: "Dons" },
   ]
