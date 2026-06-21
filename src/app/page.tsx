@@ -1,18 +1,31 @@
 
-import Image from "next/image"
-import Link from "next/link"
-import { ArrowRight, Heart, Users, Globe, CheckCircle2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { PlaceHolderImages } from "@/lib/placeholder-images"
+'use client';
+
+import * as React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, Heart, Users, Globe, CheckCircle2, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { useFirestore, useDoc } from "@/firebase";
+import { doc } from "firebase/firestore";
 
 export default function Home() {
+  const db = useFirestore();
+  const settingsRef = React.useMemo(() => {
+    if (!db) return null;
+    return doc(db, "site_settings", "general");
+  }, [db]);
+
+  const { data: settings, loading } = useDoc(settingsRef);
+
   const stats = [
     { label: "Bénéficiaires", value: "2.5M+", icon: Heart },
     { label: "Pays d'intervention", value: "35", icon: Globe },
     { label: "Projets réalisés", value: "1,200+", icon: CheckCircle2 },
     { label: "Bénévoles actifs", value: "15,000+", icon: Users },
-  ]
+  ];
 
   const programs = [
     {
@@ -33,32 +46,45 @@ export default function Home() {
       img: PlaceHolderImages.find(i => i.id === "program-water")?.imageUrl,
       link: "/programs#eau"
     }
-  ]
+  ];
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  const heroImage = settings?.heroImageUrl || PlaceHolderImages.find(i => i.id === "hero-humanitarian")?.imageUrl || "";
+  const slogan = settings?.slogan || "Ensemble pour un monde plus solidaire";
 
   return (
-    <div className="flex flex-col gap-0">
+    <div className="flex flex-col gap-0 animate-in fade-in duration-700">
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden py-20 md:py-0">
-        <Image
-          src={PlaceHolderImages.find(i => i.id === "hero-humanitarian")?.imageUrl || ""}
-          alt="Humanitarian Hero"
-          fill
-          className="object-cover brightness-[0.4]"
-          priority
-          data-ai-hint="humanitarian aid"
-        />
+        <div className="absolute inset-0">
+          <Image
+            src={heroImage}
+            alt="Humanitarian Hero"
+            fill
+            className="object-cover brightness-[0.4]"
+            priority
+            data-ai-hint="humanitarian aid"
+          />
+        </div>
         <div className="container relative mx-auto px-4 z-10 text-white space-y-8 max-w-4xl">
-          <div className="inline-block px-4 py-1 rounded-full bg-secondary/80 backdrop-blur-sm text-xs md:text-sm font-bold tracking-wider uppercase mb-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            Ensemble pour un monde plus solidaire
+          <div className="inline-block px-4 py-1 rounded-full bg-secondary/80 backdrop-blur-sm text-xs md:text-sm font-bold tracking-wider uppercase mb-4">
+            {slogan}
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-headline font-bold leading-tight animate-in fade-in slide-in-from-bottom-8 duration-700 delay-100">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-headline font-bold leading-tight">
             Changeons des vies, <br className="hidden sm:block" />
             <span className="text-secondary">bâtissons l'avenir.</span>
           </h1>
-          <p className="text-lg md:text-2xl text-white/90 leading-relaxed max-w-2xl animate-in fade-in slide-in-from-bottom-12 duration-700 delay-200">
+          <p className="text-lg md:text-2xl text-white/90 leading-relaxed max-w-2xl">
             FFG-VE est aux premières lignes de l'action humanitaire, apportant espoir et dignité aux communautés les plus vulnérables du monde entier.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 pt-4 animate-in fade-in slide-in-from-bottom-16 duration-700 delay-300">
+          <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <Link href="/donate" className="w-full sm:w-auto">
               <Button size="lg" className="w-full bg-secondary hover:bg-secondary/90 text-white text-lg font-bold px-8 h-14 shadow-xl rounded-full">
                 Faire un don
@@ -162,5 +188,5 @@ export default function Home() {
         <div className="absolute -bottom-24 -right-24 w-64 h-64 md:w-96 md:h-96 bg-secondary/10 rounded-full blur-3xl" />
       </section>
     </div>
-  )
+  );
 }

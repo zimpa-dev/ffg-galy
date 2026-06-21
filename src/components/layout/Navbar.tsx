@@ -4,7 +4,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X, Globe, Moon, Sun, Heart } from "lucide-react"
+import { Menu, X, Globe, Moon, Sun, Heart, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import {
@@ -14,12 +14,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
+import { useFirestore, useDoc } from "@/firebase"
+import { doc } from "firebase/firestore"
 
 const navLinks = [
   { name: "Accueil", href: "/" },
   { name: "À Propos", href: "/about" },
   { name: "Programmes", href: "/programs" },
-  { name: "Projets", href: "/projects" },
   { name: "Transparence", href: "/transparency" },
   { name: "Actualités", href: "/news" },
   { name: "Contact", href: "/contact" },
@@ -35,17 +36,30 @@ export function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false)
   const pathname = usePathname()
   const { theme, setTheme } = useTheme()
-  const [lang, setLang] = React.useState("FR")
+  const db = useFirestore()
+  
+  const settingsRef = React.useMemo(() => {
+    if (!db) return null;
+    return doc(db, "site_settings", "general");
+  }, [db]);
+
+  const { data: settings } = useDoc(settingsRef);
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 flex h-20 items-center justify-between">
         <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-headline font-bold text-xl">F</span>
-            </div>
-            <span className="font-headline font-bold text-2xl hidden sm:inline-block">FFG-VE</span>
+          <Link href="/" className="flex items-center space-x-3">
+            {settings?.logoUrl ? (
+              <img src={settings.logoUrl} alt="Logo" className="h-10 w-auto object-contain" />
+            ) : (
+              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                <span className="text-primary-foreground font-headline font-bold text-xl">F</span>
+              </div>
+            )}
+            <span className="font-headline font-bold text-2xl hidden sm:inline-block">
+              {settings?.orgName || "FFG-VE"}
+            </span>
           </Link>
 
           <div className="hidden lg:flex items-center gap-6">
@@ -55,7 +69,7 @@ export function Navbar() {
                 href={link.href}
                 className={cn(
                   "text-sm font-medium transition-colors hover:text-primary",
-                  pathname === link.href ? "text-primary" : "text-muted-foreground"
+                  pathname === link.href ? "text-primary font-bold" : "text-muted-foreground"
                 )}
               >
                 {link.name}
@@ -66,22 +80,6 @@ export function Navbar() {
 
         <div className="flex items-center gap-2 sm:gap-4">
           <div className="hidden sm:flex items-center gap-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Globe className="h-5 w-5" />
-                  <span className="sr-only">Langues</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {languages.map((l) => (
-                  <DropdownMenuItem key={l.code} onClick={() => setLang(l.code)}>
-                    {l.name}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
             <Button
               variant="ghost"
               size="icon"
@@ -94,7 +92,7 @@ export function Navbar() {
           </div>
 
           <Link href="/donate">
-            <Button className="hidden sm:flex font-semibold shadow-md bg-secondary hover:bg-secondary/90 text-white">
+            <Button className="hidden sm:flex font-semibold shadow-md bg-secondary hover:bg-secondary/90 text-white rounded-full px-6">
               <Heart className="mr-2 h-4 w-4 fill-current" />
               Faire un don
             </Button>
@@ -124,13 +122,11 @@ export function Navbar() {
               </Link>
             ))}
             <div className="pt-4 border-t flex items-center justify-between">
-              <div className="flex gap-4">
-                <Button variant="outline" size="sm" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-                  {theme === "dark" ? "Mode Clair" : "Mode Sombre"}
-                </Button>
-              </div>
+              <Button variant="outline" size="sm" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+                {theme === "dark" ? "Mode Clair" : "Mode Sombre"}
+              </Button>
               <Link href="/donate" onClick={() => setIsOpen(false)}>
-                <Button className="bg-secondary text-white font-bold">Faire un don</Button>
+                <Button className="bg-secondary text-white font-bold rounded-full">Faire un don</Button>
               </Link>
             </div>
           </div>

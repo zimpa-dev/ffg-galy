@@ -58,6 +58,17 @@
         "createdAt": { "type": "string", "format": "date-time" }
       },
       "required": ["amount", "donorEmail"]
+    },
+    "SiteSettings": {
+      "title": "Site Settings",
+      "description": "Global assets and configurations for the website",
+      "type": "object",
+      "properties": {
+        "logoUrl": { "type": "string" },
+        "heroImageUrl": { "type": "string" },
+        "orgName": { "type": "string" },
+        "slogan": { "type": "string" }
+      }
     }
   },
   "auth": {
@@ -79,6 +90,10 @@
     "/donations/{donationId}": {
       "schema": "Donation",
       "description": "Collection of received donations"
+    },
+    "/site_settings/general": {
+      "schema": "SiteSettings",
+      "description": "Global website configuration"
     }
   }
 }
