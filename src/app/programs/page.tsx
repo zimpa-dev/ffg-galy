@@ -1,63 +1,47 @@
 
-import Image from "next/image"
-import Link from "next/link"
-import { BookOpen, Stethoscope, Droplets, Leaf, Siren, Salad, ArrowRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { PlaceHolderImages } from "@/lib/placeholder-images"
+'use client';
 
-const programs = [
-  {
-    id: "aide-alimentaire",
-    title: "Aide Alimentaire",
-    icon: Salad,
-    desc: "Distribution de repas chauds et de kits alimentaires aux familles en situation d'insécurité nutritionnelle.",
-    img: "https://picsum.photos/seed/prog1/600/400",
-    color: "bg-orange-50 text-orange-600"
-  },
-  {
-    id: "sante",
-    title: "Santé et Soins",
-    icon: Stethoscope,
-    desc: "Cliniques mobiles, programmes de vaccination et accès aux médicaments essentiels dans les zones reculées.",
-    img: PlaceHolderImages.find(i => i.id === "program-health")?.imageUrl,
-    color: "bg-blue-50 text-blue-600"
-  },
-  {
-    id: "education",
-    title: "Éducation",
-    icon: BookOpen,
-    desc: "Bourses d'études, construction d'écoles et formation continue pour les enseignants locaux.",
-    img: PlaceHolderImages.find(i => i.id === "program-education")?.imageUrl,
-    color: "bg-green-50 text-green-600"
-  },
-  {
-    id: "eau",
-    title: "Eau Potable",
-    icon: Droplets,
-    desc: "Forage de puits, systèmes de filtration d'eau et éducation à l'hygiène pour prévenir les maladies.",
-    img: PlaceHolderImages.find(i => i.id === "program-water")?.imageUrl,
-    color: "bg-cyan-50 text-cyan-600"
-  },
-  {
-    id: "developpement",
-    title: "Développement Durable",
-    icon: Leaf,
-    desc: "Soutien aux coopératives agricoles et micro-projets générateurs de revenus pour l'autonomie.",
-    img: "https://picsum.photos/seed/prog5/600/400",
-    color: "bg-emerald-50 text-emerald-600"
-  },
-  {
-    id: "urgence",
-    title: "Aide d'Urgence",
-    icon: Siren,
-    desc: "Intervention rapide lors de catastrophes naturelles ou de conflits pour sauver des vies immédiatement.",
-    img: PlaceHolderImages.find(i => i.id === "hero-humanitarian")?.imageUrl,
-    color: "bg-red-50 text-red-600"
-  }
-]
+import * as React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useFirestore, useCollection } from "@/firebase";
+import { collection, query, orderBy } from "firebase/firestore";
+import { 
+  BookOpen, 
+  Stethoscope, 
+  Droplets, 
+  Leaf, 
+  Siren, 
+  Salad, 
+  ArrowRight,
+  Loader2,
+  HeartHandshake
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
+
+// Map string icons to Lucide components
+const iconMap: Record<string, any> = {
+  BookOpen,
+  Stethoscope,
+  Droplets,
+  Leaf,
+  Siren,
+  Salad,
+  HeartHandshake
+};
 
 export default function ProgramsPage() {
+  const db = useFirestore();
+  
+  const programsQuery = React.useMemo(() => {
+    if (!db) return null;
+    return query(collection(db, "programs"), orderBy("createdAt", "desc"));
+  }, [db]);
+
+  const { data: dbPrograms, loading } = useCollection(programsQuery);
+
   return (
     <div className="py-20 space-y-24">
       <div className="container mx-auto px-4 text-center max-w-3xl space-y-6">
@@ -68,36 +52,49 @@ export default function ProgramsPage() {
       </div>
 
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-          {programs.map((prog) => (
-            <Card key={prog.id} id={prog.id} className="overflow-hidden border-none shadow-xl hover:shadow-2xl transition-all duration-300 rounded-3xl flex flex-col group">
-              <div className="relative h-60">
-                <Image 
-                  src={prog.img || ""} 
-                  alt={prog.title} 
-                  fill 
-                  className="object-cover group-hover:scale-105 transition-transform duration-500" 
-                />
-                <div className={`absolute top-4 left-4 p-3 rounded-2xl ${prog.color.split(' ')[0]} shadow-lg`}>
-                  <prog.icon className={`h-6 w-6 ${prog.color.split(' ')[1]}`} />
-                </div>
-              </div>
-              <CardContent className="p-8 space-y-6 flex-grow flex flex-col justify-between">
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-headline font-bold">{prog.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{prog.desc}</p>
-                </div>
-                <div className="pt-4">
-                  <Link href="/donate">
-                    <Button variant="ghost" className="p-0 h-auto font-bold text-primary hover:bg-transparent hover:text-primary/80 group/btn">
-                      Soutenir ce programme <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
-                    </Button>
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex justify-center p-24">
+            <Loader2 className="h-12 w-12 animate-spin text-primary" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            {dbPrograms && dbPrograms.map((prog) => {
+              const IconComponent = iconMap[prog.icon] || HeartHandshake;
+              const colorClasses = prog.color || "bg-primary/10 text-primary";
+              const bgColor = colorClasses.split(' ')[0];
+              const textColor = colorClasses.split(' ')[1];
+
+              return (
+                <Card key={prog.id} className="overflow-hidden border-none shadow-xl hover:shadow-2xl transition-all duration-300 rounded-3xl flex flex-col group">
+                  <div className="relative h-60">
+                    <Image 
+                      src={prog.imageUrl || "https://picsum.photos/seed/default/600/400"} 
+                      alt={prog.title} 
+                      fill 
+                      className="object-cover group-hover:scale-105 transition-transform duration-500" 
+                    />
+                    <div className={`absolute top-4 left-4 p-3 rounded-2xl ${bgColor} shadow-lg backdrop-blur-sm bg-opacity-90`}>
+                      <IconComponent className={`h-6 w-6 ${textColor}`} />
+                    </div>
+                  </div>
+                  <CardContent className="p-8 space-y-6 flex-grow flex flex-col justify-between">
+                    <div className="space-y-4">
+                      <h3 className="text-2xl font-headline font-bold">{prog.title}</h3>
+                      <p className="text-muted-foreground leading-relaxed">{prog.description}</p>
+                    </div>
+                    <div className="pt-4">
+                      <Link href="/donate">
+                        <Button variant="ghost" className="p-0 h-auto font-bold text-primary hover:bg-transparent hover:text-primary/80 group/btn">
+                          Soutenir ce programme <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                        </Button>
+                      </Link>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       <section className="bg-primary text-white py-20 overflow-hidden">
@@ -118,7 +115,7 @@ export default function ProgramsPage() {
           </div>
           <div className="relative w-full max-w-md h-80 rounded-3xl overflow-hidden shadow-2xl rotate-2">
             <Image 
-              src={PlaceHolderImages.find(i => i.id === "project-gallery-1")?.imageUrl || ""} 
+              src={PlaceHolderImages.find(i => i.id === "project-gallery-1")?.imageUrl || "https://picsum.photos/seed/ngo/600/400"} 
               alt="Community Work" 
               fill 
               className="object-cover" 
@@ -127,5 +124,5 @@ export default function ProgramsPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }
