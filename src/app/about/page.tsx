@@ -3,7 +3,8 @@
 
 import * as React from "react";
 import Image from "next/image"
-import { Shield, Target, Eye, Users2, Info, Loader2, Heart } from "lucide-react"
+import Link from "next/link"
+import { Shield, Target, Eye, Users2, Info, Loader2, Heart, Facebook, Twitter, Linkedin } from "lucide-react"
 import { PlaceHolderImages } from "@/lib/placeholder-images"
 import { Card, CardContent } from "@/components/ui/card"
 import { useFirestore, useDoc } from "@/firebase"
@@ -25,13 +26,6 @@ export default function AboutPage() {
     { title: "Inclusion", desc: "Aider sans distinction de race, de religion ou de genre.", icon: Users2 },
   ]
 
-  const team = [
-    { name: "Dr. Amadou Diallo", role: "Président Fondateur", img: PlaceHolderImages.find(i => i.id === "team-leader")?.imageUrl },
-    { name: "Marie Dubois", role: "Directrice des Programmes", img: "https://picsum.photos/seed/team2/400/400" },
-    { name: "Sven Müller", role: "Trésorier", img: "https://picsum.photos/seed/team3/400/400" },
-    { name: "Fatima Al-Sayed", role: "Responsable Logistique", img: "https://picsum.photos/seed/team4/400/400" },
-  ]
-
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
@@ -40,14 +34,24 @@ export default function AboutPage() {
     );
   }
 
+  const defaultTeam = [
+    { id: "1", name: "Dr. Amadou Diallo", role: "Président Fondateur", img: PlaceHolderImages.find(i => i.id === "team-leader")?.imageUrl },
+    { id: "2", name: "Marie Dubois", role: "Directrice des Programmes", img: "https://picsum.photos/seed/team2/400/400" },
+    { id: "3", name: "Sven Müller", role: "Trésorier", img: "https://picsum.photos/seed/team3/400/400" },
+    { id: "4", name: "Fatima Al-Sayed", role: "Responsable Logistique", img: "https://picsum.photos/seed/team4/400/400" },
+  ]
+
   const content = aboutData || {
     heroTitle: "Notre Engagement",
     heroSubtitle: "Fondée en 2005, FFG-VE est née d'une vision simple : aucune souffrance ne devrait rester sans réponse.",
     history: "Aujourd'hui, nous sommes une force de changement dans plus de 35 pays. Nous agissons sur le terrain avec les communautés locales pour garantir la pérennité de chaque projet.",
     mission: "Mobiliser les ressources pour répondre aux urgences humanitaires et accompagner les populations vers l'autonomie.",
     vision: "Un monde où chaque individu a accès aux droits fondamentaux : éducation, santé et environnement durable.",
-    teamIntro: "Des professionnels passionnés engagés pour la cause humanitaire."
+    teamIntro: "Des professionnels passionnés engagés pour la cause humanitaire.",
+    teamMembers: defaultTeam
   };
+
+  const teamMembers = content.teamMembers || defaultTeam;
 
   return (
     <div className="flex flex-col gap-0 animate-in fade-in duration-700">
@@ -63,7 +67,6 @@ export default function AboutPage() {
           </p>
         </div>
         <div className="absolute top-0 right-0 w-1/3 h-full bg-white/5 skew-x-12 translate-x-20" />
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-secondary/20 rounded-full blur-3xl" />
       </section>
 
       {/* Narrative Section */}
@@ -100,7 +103,6 @@ export default function AboutPage() {
               <p className="text-lg text-muted-foreground leading-relaxed relative z-10">
                 {content.mission}
               </p>
-              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/5 rounded-full group-hover:scale-150 transition-transform duration-700" />
             </div>
             <div className="bg-white dark:bg-zinc-800 p-12 rounded-[3rem] shadow-xl space-y-8 relative overflow-hidden group">
               <div className="bg-secondary/10 p-5 inline-block rounded-2xl relative z-10">
@@ -110,7 +112,6 @@ export default function AboutPage() {
               <p className="text-lg text-muted-foreground leading-relaxed relative z-10">
                 {content.vision}
               </p>
-              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-secondary/5 rounded-full group-hover:scale-150 transition-transform duration-700" />
             </div>
           </div>
         </div>
@@ -144,16 +145,32 @@ export default function AboutPage() {
             <p className="text-muted-foreground text-lg">{content.teamIntro}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-            {team.map((m, i) => (
-              <div key={i} className="space-y-4 text-center group">
+            {teamMembers.map((m: any) => (
+              <div key={m.id} className="space-y-4 text-center group">
                 <div className="relative aspect-square rounded-[3rem] overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300">
                   <Image 
-                    src={m.img || ""} 
+                    src={m.img || "https://picsum.photos/seed/default/400/400"} 
                     alt={m.name} 
                     fill 
                     className="object-cover group-hover:scale-105 transition-transform duration-500" 
                   />
-                  <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+                    {m.facebook && (
+                      <Link href={m.facebook} target="_blank" className="bg-white p-2 rounded-full text-blue-600 hover:scale-110 transition-transform">
+                        <Facebook className="h-5 w-5" />
+                      </Link>
+                    )}
+                    {m.twitter && (
+                      <Link href={m.twitter} target="_blank" className="bg-white p-2 rounded-full text-sky-400 hover:scale-110 transition-transform">
+                        <Twitter className="h-5 w-5" />
+                      </Link>
+                    )}
+                    {m.linkedin && (
+                      <Link href={m.linkedin} target="_blank" className="bg-white p-2 rounded-full text-blue-800 hover:scale-110 transition-transform">
+                        <Linkedin className="h-5 w-5" />
+                      </Link>
+                    )}
+                  </div>
                 </div>
                 <div>
                   <h3 className="text-xl font-bold">{m.name}</h3>
