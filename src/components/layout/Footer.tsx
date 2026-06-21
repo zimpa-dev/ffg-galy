@@ -1,6 +1,6 @@
 
 import Link from "next/link"
-import { Facebook, Twitter, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react"
+import { Facebook, Twitter, Instagram, Linkedin, Mail, MapPin, Phone, Lock } from "lucide-react"
 
 export function Footer() {
   return (
@@ -30,7 +30,7 @@ export function Footer() {
             <ul className="space-y-4">
               <li><Link href="/about" className="hover:text-secondary transition-colors">Notre Histoire</Link></li>
               <li><Link href="/programs" className="hover:text-secondary transition-colors">Nos Programmes</Link></li>
-              <li><Link href="/projects" className="hover:text-secondary transition-colors">Projets en cours</Link></li>
+              <li><Link href="/news" className="hover:text-secondary transition-colors">Actualités</Link></li>
               <li><Link href="/transparency" className="hover:text-secondary transition-colors">Transparence</Link></li>
               <li><Link href="/volunteer" className="hover:text-secondary transition-colors">Devenir Bénévole</Link></li>
             </ul>
@@ -68,12 +68,14 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-white/10 text-center text-sm text-primary-foreground/60 space-y-4">
+        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-primary-foreground/60">
           <p>© {new Date().getFullYear()} FFG-VE Horizon. Tous droits réservés.</p>
-          <div className="flex justify-center space-x-6">
+          <div className="flex flex-wrap justify-center gap-6">
             <Link href="/legal" className="hover:text-white">Mentions légales</Link>
             <Link href="/privacy" className="hover:text-white">Confidentialité</Link>
-            <Link href="/terms" className="hover:text-white">Conditions générales</Link>
+            <Link href="/admin" className="hover:text-secondary flex items-center gap-1 font-bold">
+              <Lock className="h-3 w-3" /> Espace Administration
+            </Link>
           </div>
         </div>
       </div>

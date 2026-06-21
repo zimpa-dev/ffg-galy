@@ -4,7 +4,7 @@
 import * as React from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Calendar, User, ArrowRight, Sparkles, Loader2, Edit3 } from "lucide-react"
+import { Calendar, User, ArrowRight, Sparkles, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { PlaceHolderImages } from "@/lib/placeholder-images"
@@ -20,38 +20,21 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-
-const blogPosts = [
-  {
-    title: "Succès de la mission de vaccination au Togo",
-    excerpt: "Plus de 50 000 enfants ont été vaccinés grâce à votre soutien et à nos équipes mobiles.",
-    date: "12 Mars 2024",
-    author: "Dr. Elena Rossi",
-    category: "Santé",
-    image: PlaceHolderImages.find(i => i.id === "program-health")?.imageUrl
-  },
-  {
-    title: "Inauguration de l'école Solidaire à Bamako",
-    excerpt: "Une nouvelle structure moderne accueillant 400 élèves a ouvert ses portes cette semaine.",
-    date: "5 Mars 2024",
-    author: "Marc Lefebvre",
-    category: "Éducation",
-    image: PlaceHolderImages.find(i => i.id === "program-education")?.imageUrl
-  },
-  {
-    title: "Rapport d'Impact Trimestriel : T1 2024",
-    excerpt: "Découvrez les chiffres clés et les histoires humaines de nos interventions récentes.",
-    date: "28 Février 2024",
-    author: "Sarah Mendy",
-    category: "Impact",
-    image: PlaceHolderImages.find(i => i.id === "project-gallery-1")?.imageUrl
-  }
-]
+import { useFirestore, useCollection } from "@/firebase"
+import { collection, query, orderBy } from "firebase/firestore"
 
 export default function NewsPage() {
+  const db = useFirestore()
   const [drafting, setDrafting] = React.useState(false)
   const [topic, setTopic] = React.useState("")
   const [aiDraft, setAiDraft] = React.useState<string | null>(null)
+
+  const newsQuery = React.useMemo(() => {
+    if (!db) return null
+    return query(collection(db, "news"), orderBy("date", "desc"))
+  }, [db])
+
+  const { data: newsArticles, loading } = useCollection(newsQuery)
 
   const handleAIDraft = async () => {
     if (!topic) return
@@ -79,7 +62,6 @@ export default function NewsPage() {
           <p className="text-xl text-muted-foreground">Suivez notre action au quotidien et découvrez les visages de la solidarité.</p>
         </div>
 
-        {/* AI Assistant Dialog */}
         <Dialog>
           <DialogTrigger asChild>
             <Button className="bg-secondary text-white font-bold h-14 px-8 rounded-full shadow-lg group">
@@ -127,46 +109,57 @@ export default function NewsPage() {
         </Dialog>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {blogPosts.map((post, idx) => (
-          <Card key={idx} className="overflow-hidden border-none shadow-lg hover:shadow-2xl transition-all group flex flex-col">
-            <div className="relative h-56">
-              <Image 
-                src={post.image || ""} 
-                alt={post.title} 
-                fill 
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-              <div className="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">
-                {post.category}
+      {loading ? (
+        <div className="flex justify-center p-20">
+          <Loader2 className="h-10 w-10 animate-spin text-primary" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {newsArticles && newsArticles.map((post, idx) => (
+            <Card key={post.id} className="overflow-hidden border-none shadow-lg hover:shadow-2xl transition-all group flex flex-col">
+              <div className="relative h-56">
+                <Image 
+                  src={post.image || "https://picsum.photos/seed/news/600/400"} 
+                  alt={post.title} 
+                  fill 
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">
+                  {post.category}
+                </div>
               </div>
+              <CardContent className="p-6 space-y-4 flex-grow">
+                <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <Calendar className="h-3 w-3" />
+                    {post.date}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <User className="h-3 w-3" />
+                    {post.author}
+                  </div>
+                </div>
+                <h3 className="text-xl font-headline font-bold group-hover:text-primary transition-colors line-clamp-2">
+                  {post.title}
+                </h3>
+                <p className="text-muted-foreground text-sm line-clamp-3 leading-relaxed">
+                  {post.excerpt}
+                </p>
+              </CardContent>
+              <CardFooter className="p-6 pt-0">
+                <Link href={`/news/${post.id}`} className="inline-flex items-center text-primary font-bold hover:underline group/link">
+                  Lire la suite <ArrowRight className="ml-2 h-4 w-4 group-hover/link:translate-x-1 transition-transform" />
+                </Link>
+              </CardFooter>
+            </Card>
+          ))}
+          {(!newsArticles || newsArticles.length === 0) && (
+            <div className="col-span-full text-center py-20 bg-zinc-50 rounded-3xl">
+              <p className="text-muted-foreground italic">Aucune actualité publiée pour le moment.</p>
             </div>
-            <CardContent className="p-6 space-y-4 flex-grow">
-              <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                <div className="flex items-center gap-1">
-                  <Calendar className="h-3 w-3" />
-                  {post.date}
-                </div>
-                <div className="flex items-center gap-1">
-                  <User className="h-3 w-3" />
-                  {post.author}
-                </div>
-              </div>
-              <h3 className="text-xl font-headline font-bold group-hover:text-primary transition-colors line-clamp-2">
-                {post.title}
-              </h3>
-              <p className="text-muted-foreground text-sm line-clamp-3 leading-relaxed">
-                {post.excerpt}
-              </p>
-            </CardContent>
-            <CardFooter className="p-6 pt-0">
-              <Link href="#" className="inline-flex items-center text-primary font-bold hover:underline group/link">
-                Lire la suite <ArrowRight className="ml-2 h-4 w-4 group-hover/link:translate-x-1 transition-transform" />
-              </Link>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
+          )}
+        </div>
+      )}
 
       <div className="bg-zinc-100 dark:bg-zinc-900 rounded-[2rem] p-12 text-center space-y-8">
         <h2 className="text-3xl font-headline font-bold">Inscrivez-vous à notre Journal</h2>
