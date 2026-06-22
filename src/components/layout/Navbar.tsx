@@ -21,15 +21,9 @@ const navLinks = [
   { name: "Accueil", href: "/" },
   { name: "À Propos", href: "/about" },
   { name: "Programmes", href: "/programs" },
-  { name: "Transparence", href: "/transparency" },
+  { name: "Galerie", href: "/transparency" },
   { name: "Actualités", href: "/news" },
   { name: "Contact", href: "/contact" },
-]
-
-const languages = [
-  { code: "FR", name: "Français" },
-  { code: "EN", name: "English" },
-  { code: "DE", name: "Deutsch" },
 ]
 
 export function Navbar() {

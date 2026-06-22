@@ -49,8 +49,8 @@ export function Footer() {
             <ul className="space-y-4">
               <li><Link href="/about" className="hover:text-secondary transition-colors">Notre Histoire</Link></li>
               <li><Link href="/programs" className="hover:text-secondary transition-colors">Nos Programmes</Link></li>
+              <li><Link href="/transparency" className="hover:text-secondary transition-colors">Galerie d'Impact</Link></li>
               <li><Link href="/news" className="hover:text-secondary transition-colors">Actualités</Link></li>
-              <li><Link href="/transparency" className="hover:text-secondary transition-colors">Transparence</Link></li>
               <li><Link href="/volunteer" className="hover:text-secondary transition-colors">Devenir Bénévole</Link></li>
             </ul>
           </div>
