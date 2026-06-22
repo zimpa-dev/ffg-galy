@@ -51,8 +51,16 @@ export default function AdminNewsPage() {
     author: "",
     category: "Santé",
     image: "",
-    date: new Date().toISOString().split('T')[0]
+    date: ""
   });
+
+  // Set initial date on mount to avoid hydration mismatch
+  React.useEffect(() => {
+    setFormData(prev => ({
+      ...prev,
+      date: new Date().toISOString().split('T')[0]
+    }));
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -246,7 +254,7 @@ export default function AdminNewsPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {news.map((item) => (
+                  {news.map((item: any) => (
                     <TableRow key={item.id}>
                       <TableCell className="font-bold">{item.title}</TableCell>
                       <TableCell><Badge variant="outline">{item.category}</Badge></TableCell>
