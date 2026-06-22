@@ -18,7 +18,7 @@ import {
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -77,9 +77,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <p className="text-xs text-muted-foreground truncate">admin@ffg-ve.org</p>
           </div>
         </div>
-        <Button variant="ghost" className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/5 gap-3">
+        <button className="flex items-center w-full px-3 py-2 text-sm font-medium text-destructive transition-colors rounded-xl hover:bg-destructive/5 gap-3">
           <LogOut className="h-4 w-4" /> Déconnexion
-        </Button>
+        </button>
       </div>
     </div>
   )
@@ -102,6 +102,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="p-0 w-72">
+                <SheetHeader className="sr-only">
+                  <SheetTitle>Menu de navigation</SheetTitle>
+                  <SheetDescription>Accédez aux différentes sections de l'administration</SheetDescription>
+                </SheetHeader>
                 <SidebarContent />
               </SheetContent>
             </Sheet>
