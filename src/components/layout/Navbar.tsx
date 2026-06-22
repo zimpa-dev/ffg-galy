@@ -28,29 +28,29 @@ const translations = {
     news: "Aktuelles",
     contact: "Kontakt",
     donate: "Spenden",
-    theme: "Thema",
+    theme: "Erscheinungsbild",
     lang: "Sprache"
   },
   en: {
     home: "Home",
-    about: "About",
+    about: "About Us",
     programs: "Programs",
     gallery: "Gallery",
     news: "News",
     contact: "Contact",
-    donate: "Donate",
-    theme: "Theme",
+    donate: "Donate Now",
+    theme: "Appearance",
     lang: "Language"
   },
   fr: {
     home: "Accueil",
     about: "À Propos",
-    programs: "Programmes",
+    programs: "Nos Programmes",
     gallery: "Galerie",
     news: "Actualités",
     contact: "Contact",
     donate: "Faire un don",
-    theme: "Thème",
+    theme: "Apparence",
     lang: "Langue"
   }
 }
@@ -187,7 +187,7 @@ export function Navbar() {
             <div className="pt-4 border-t flex items-center justify-between gap-4 flex-wrap">
               <div className="flex gap-2">
                 <Button variant="outline" size="sm" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-                  {theme === "dark" ? "Light" : "Dark"}
+                  {theme === "dark" ? "Hell" : "Dunkel"}
                 </Button>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
