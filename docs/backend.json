@@ -59,6 +59,21 @@
       },
       "required": ["amount", "donorEmail"]
     },
+    "GalleryItem": {
+      "title": "Gallery Item",
+      "description": "An image with details showing the NGO's impact",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "category": { "type": "string", "enum": ["health", "education", "water", "emergency", "events"] },
+        "image": { "type": "string" },
+        "location": { "type": "string" },
+        "date": { "type": "string" },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "category", "image"]
+    },
     "SiteSettings": {
       "title": "Site Settings",
       "description": "Global assets and configurations for the website",
@@ -90,6 +105,10 @@
     "/donations/{donationId}": {
       "schema": "Donation",
       "description": "Collection of received donations"
+    },
+    "/gallery/{itemId}": {
+      "schema": "GalleryItem",
+      "description": "Collection of impact gallery items"
     },
     "/site_settings/general": {
       "schema": "SiteSettings",
