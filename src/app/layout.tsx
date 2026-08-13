@@ -6,6 +6,7 @@ import { Footer } from '@/components/layout/Footer';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { FirebaseClientProvider } from '@/firebase';
+import { LanguageProvider } from '@/components/language-provider';
 
 export const metadata: Metadata = {
   title: 'FFG-VE Horizon | Ensemble pour un monde plus solidaire',
@@ -26,14 +27,16 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased min-h-screen flex flex-col">
         <FirebaseClientProvider>
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-            <Navbar />
-            <main className="flex-grow">
-              {children}
-            </main>
-            <Footer />
-            <Toaster />
-          </ThemeProvider>
+          <LanguageProvider>
+            <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+              <Navbar />
+              <main className="flex-grow">
+                {children}
+              </main>
+              <Footer />
+              <Toaster />
+            </ThemeProvider>
+          </LanguageProvider>
         </FirebaseClientProvider>
       </body>
     </html>
