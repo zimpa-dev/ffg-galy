@@ -1,3 +1,40 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-humanitarian",
+      "description": "Humanitarian aid delivery in a remote village",
+      "imageUrl": "https://picsum.photos/seed/ngo1/1200/600",
+      "imageHint": "humanitarian aid"
+    },
+    {
+      "id": "program-education",
+      "description": "Children studying in a new school building",
+      "imageUrl": "https://picsum.photos/seed/ngo2/600/400",
+      "imageHint": "children education"
+    },
+    {
+      "id": "program-health",
+      "description": "Medical professionals providing care",
+      "imageUrl": "https://picsum.photos/seed/ngo3/600/400",
+      "imageHint": "medical health"
+    },
+    {
+      "id": "program-water",
+      "description": "New clean water well in a community",
+      "imageUrl": "https://picsum.photos/seed/ngo4/600/400",
+      "imageHint": "clean water"
+    },
+    {
+      "id": "team-leader",
+      "description": "Portrait of a dedicated NGO leader",
+      "imageUrl": "https://picsum.photos/seed/ngo5/400/400",
+      "imageHint": "professional portrait"
+    },
+    {
+      "id": "project-gallery-1",
+      "description": "Sustainable farming initiative",
+      "imageUrl": "https://picsum.photos/seed/ngo6/800/600",
+      "imageHint": "sustainable farming"
+    }
+  ]
 }

@@ -1,10 +1,9 @@
-
 'use client';
 
 import * as React from "react";
 import Image from "next/image"
 import Link from "next/link"
-import { Shield, Target, Eye, Users2, Info, Loader2, Heart, Facebook, Twitter, Linkedin } from "lucide-react"
+import { Shield, Target, Eye, Users2, Heart, Facebook, Twitter, Linkedin, Loader2 } from "lucide-react"
 import { PlaceHolderImages } from "@/lib/placeholder-images"
 import { Card, CardContent } from "@/components/ui/card"
 import { useFirestore, useDoc } from "@/firebase"
@@ -52,6 +51,7 @@ export default function AboutPage() {
   };
 
   const teamMembers = content.teamMembers || defaultTeam;
+  const historyImage = PlaceHolderImages.find(i => i.id === "project-gallery-1")?.imageUrl || "https://picsum.photos/seed/impact/800/1000";
 
   return (
     <div className="flex flex-col gap-0 animate-in fade-in duration-700">
@@ -79,13 +79,15 @@ export default function AboutPage() {
             </div>
           </div>
           <div className="lg:col-span-5">
-            <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500">
-              <Image 
-                src={PlaceHolderImages.find(i => i.id === "project-gallery-1")?.imageUrl || ""} 
-                alt="Impact FFG-VE" 
-                fill 
-                className="object-cover"
-              />
+            <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500 bg-zinc-100">
+              {historyImage && (
+                <Image 
+                  src={historyImage} 
+                  alt="Impact FFG-VE" 
+                  fill 
+                  className="object-cover"
+                />
+              )}
             </div>
           </div>
         </div>
@@ -147,13 +149,15 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
             {teamMembers.map((m: any) => (
               <div key={m.id} className="space-y-4 text-center group">
-                <div className="relative aspect-square rounded-[3rem] overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300">
-                  <Image 
-                    src={m.img || "https://picsum.photos/seed/default/400/400"} 
-                    alt={m.name} 
-                    fill 
-                    className="object-cover group-hover:scale-105 transition-transform duration-500" 
-                  />
+                <div className="relative aspect-square rounded-[3rem] overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 bg-zinc-100">
+                  {m.img && (
+                    <Image 
+                      src={m.img} 
+                      alt={m.name} 
+                      fill 
+                      className="object-cover group-hover:scale-105 transition-transform duration-500" 
+                    />
+                  )}
                   <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
                     {m.facebook && (
                       <Link href={m.facebook} target="_blank" className="bg-white p-2 rounded-full text-blue-600 hover:scale-110 transition-transform">

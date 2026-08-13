@@ -1,10 +1,9 @@
-
 'use client';
 
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Heart, Users, Globe, CheckCircle2, Loader2 } from "lucide-react";
+import { ArrowRight, Heart, Globe, CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -56,22 +55,24 @@ export default function Home() {
     );
   }
 
-  const heroImage = settings?.heroImageUrl || PlaceHolderImages.find(i => i.id === "hero-humanitarian")?.imageUrl || "";
+  const heroImage = settings?.heroImageUrl || PlaceHolderImages.find(i => i.id === "hero-humanitarian")?.imageUrl || "https://picsum.photos/seed/hero/1200/600";
   const slogan = settings?.slogan || "Ensemble pour un monde plus solidaire";
 
   return (
     <div className="flex flex-col gap-0 animate-in fade-in duration-700">
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden py-20 md:py-0">
-        <div className="absolute inset-0">
-          <Image
-            src={heroImage}
-            alt="Humanitarian Hero"
-            fill
-            className="object-cover brightness-[0.4]"
-            priority
-            data-ai-hint="humanitarian aid"
-          />
+        <div className="absolute inset-0 bg-zinc-900">
+          {heroImage && (
+            <Image
+              src={heroImage}
+              alt="Humanitarian Hero"
+              fill
+              className="object-cover brightness-[0.4]"
+              priority
+              data-ai-hint="humanitarian aid"
+            />
+          )}
         </div>
         <div className="container relative mx-auto px-4 z-10 text-white space-y-8 max-w-4xl">
           <div className="inline-block px-4 py-1 rounded-full bg-secondary/80 backdrop-blur-sm text-xs md:text-sm font-bold tracking-wider uppercase mb-4">
@@ -136,13 +137,15 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {programs.map((prog, idx) => (
               <Card key={idx} className="overflow-hidden border-none shadow-lg hover:shadow-2xl transition-all duration-300 rounded-3xl group">
-                <div className="relative h-56 md:h-64">
-                  <Image
-                    src={prog.img || ""}
-                    alt={prog.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+                <div className="relative h-56 md:h-64 bg-zinc-100">
+                  {prog.img && (
+                    <Image
+                      src={prog.img}
+                      alt={prog.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                   <div className="absolute bottom-6 left-6 text-white">
                     <h3 className="text-xl md:text-2xl font-headline font-bold mb-1">{prog.title}</h3>
@@ -188,5 +191,16 @@ export default function Home() {
         <div className="absolute -bottom-24 -right-24 w-64 h-64 md:w-96 md:h-96 bg-secondary/10 rounded-full blur-3xl" />
       </section>
     </div>
+  );
+}
+
+function Users({ className }: { className?: string }) {
+  return (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
   );
 }
