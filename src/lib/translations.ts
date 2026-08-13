@@ -12,6 +12,8 @@ export const translations = {
       contact: "Kontakt",
       donate: "Spenden",
       admin: "Verwaltung",
+      login: "Anmelden",
+      logout: "Abmelden"
     },
     home: {
       slogan: "Gemeinsam für eine solidarischere Welt",
@@ -66,6 +68,12 @@ export const translations = {
       rights: "Alle Rechte vorbehalten.",
       legal: "Impressum",
       privacy: "Datenschutz"
+    },
+    auth: {
+      loginTitle: "Admin-Bereich",
+      loginSubtitle: "Melden Sie sich an, um die Website zu verwalten.",
+      googleBtn: "Mit Google anmelden",
+      backHome: "Zurück zur Startseite"
     }
   },
   en: {
@@ -78,6 +86,8 @@ export const translations = {
       contact: "Contact",
       donate: "Donate Now",
       admin: "Admin",
+      login: "Login",
+      logout: "Logout"
     },
     home: {
       slogan: "Together for a more solidary world",
@@ -132,6 +142,12 @@ export const translations = {
       rights: "All rights reserved.",
       legal: "Legal Notice",
       privacy: "Privacy Policy"
+    },
+    auth: {
+      loginTitle: "Admin Area",
+      loginSubtitle: "Sign in to manage the website.",
+      googleBtn: "Sign in with Google",
+      backHome: "Back to Home"
     }
   },
   fr: {
@@ -144,6 +160,8 @@ export const translations = {
       contact: "Contact",
       donate: "Faire un don",
       admin: "Administration",
+      login: "Connexion",
+      logout: "Déconnexion"
     },
     home: {
       slogan: "Ensemble pour un monde plus solidaire",
@@ -198,6 +216,12 @@ export const translations = {
       rights: "Tous droits réservés.",
       legal: "Mentions légales",
       privacy: "Confidentialité"
+    },
+    auth: {
+      loginTitle: "Espace Admin",
+      loginSubtitle: "Connectez-vous pour gérer le site.",
+      googleBtn: "Se connecter avec Google",
+      backHome: "Retour à l'accueil"
     }
   }
 };

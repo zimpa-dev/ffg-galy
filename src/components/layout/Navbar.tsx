@@ -4,7 +4,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X, Globe, Moon, Sun, Heart, Check } from "lucide-react"
+import { Menu, X, Globe, Moon, Sun, Heart, Check, Lock, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import {
@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
-import { useFirestore, useDoc } from "@/firebase"
+import { useFirestore, useDoc, useUser } from "@/firebase"
 import { doc } from "firebase/firestore"
 import { useLanguage } from "@/components/language-provider"
 import { Language } from "@/lib/translations"
@@ -31,6 +31,7 @@ export function Navbar() {
   const pathname = usePathname()
   const { theme, setTheme } = useTheme()
   const db = useFirestore()
+  const { user } = useUser()
   
   const settingsRef = React.useMemo(() => {
     if (!db) return null;
@@ -47,6 +48,10 @@ export function Navbar() {
     { name: t.nav.news, href: "/news" },
     { name: t.nav.contact, href: "/contact" },
   ]
+
+  const isAdminPath = pathname.startsWith('/admin')
+
+  if (isAdminPath) return null; // Let AdminLayout handle navigation in admin
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -112,6 +117,20 @@ export function Navbar() {
               <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
               <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
             </Button>
+            
+            {user ? (
+              <Link href="/admin">
+                <Button variant="outline" size="icon" title={t.nav.admin}>
+                  <Lock className="h-4 w-4" />
+                </Button>
+              </Link>
+            ) : (
+              <Link href="/login">
+                <Button variant="ghost" size="icon" title={t.nav.login}>
+                  <User className="h-4 w-4" />
+                </Button>
+              </Link>
+            )}
           </div>
 
           <Link href="/donate">
@@ -144,6 +163,11 @@ export function Navbar() {
               </Link>
             ))}
             <div className="pt-4 border-t flex flex-col gap-4">
+              <Link href="/admin" onClick={() => setIsMenuOpen(false)}>
+                <Button variant="outline" className="w-full gap-2 rounded-full">
+                  <Lock className="h-4 w-4" /> {t.nav.admin}
+                </Button>
+              </Link>
               <Link href="/donate" onClick={() => setIsMenuOpen(false)}>
                 <Button className="w-full bg-secondary text-white font-bold rounded-full">{t.nav.donate}</Button>
               </Link>
