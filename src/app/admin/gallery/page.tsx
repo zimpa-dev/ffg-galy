@@ -13,7 +13,8 @@ import {
   Calendar, 
   Tag, 
   Type, 
-  AlignLeft 
+  AlignLeft,
+  Upload
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -44,6 +45,26 @@ export default function AdminGalleryPage() {
     date: "",
     description: ""
   });
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        toast({
+          variant: "destructive",
+          title: "Fichier trop volumineux",
+          description: "Veuillez choisir une image de moins de 2 Mo.",
+        });
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData(prev => ({ ...prev, image: reader.result as string }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -153,15 +174,33 @@ export default function AdminGalleryPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="image" className="flex items-center gap-2"><ImageIcon className="h-4 w-4" /> URL Image</Label>
-                <Input 
-                  id="image" 
-                  required 
-                  value={formData.image}
-                  onChange={(e) => setFormData({...formData, image: e.target.value})}
-                  className="rounded-xl"
-                  placeholder="https://..."
-                />
+                <Label className="flex items-center gap-2"><ImageIcon className="h-4 w-4" /> Image</Label>
+                <div className="space-y-3">
+                  <div className="flex flex-col gap-2">
+                    <Input 
+                      type="file" 
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      className="rounded-xl cursor-pointer file:bg-primary file:text-white file:border-none file:rounded-lg file:px-3 file:py-1 file:mr-3 file:hover:bg-primary/90"
+                    />
+                    <div className="text-center text-[10px] text-muted-foreground uppercase font-bold">Ou utiliser une URL</div>
+                    <Input 
+                      required 
+                      value={formData.image}
+                      onChange={(e) => setFormData({...formData, image: e.target.value})}
+                      className="rounded-xl"
+                      placeholder="https://..."
+                    />
+                  </div>
+                  {formData.image && (
+                    <div className="relative aspect-video rounded-xl overflow-hidden border bg-muted group">
+                      <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span className="text-white text-xs font-bold">Aperçu de l'image</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -198,7 +237,7 @@ export default function AdminGalleryPage() {
                 />
               </div>
 
-              <Button type="submit" disabled={isSubmitting} className="w-full rounded-xl h-12">
+              <Button type="submit" disabled={isSubmitting || !formData.image} className="w-full rounded-xl h-12 shadow-lg transition-all hover:scale-[1.02]">
                 {isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
                 Ajouter à la galerie
               </Button>
