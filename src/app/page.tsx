@@ -83,14 +83,14 @@ export default function Home() {
 
       <section className="bg-white dark:bg-zinc-900 py-12 md:py-20 -mt-10 relative z-20 rounded-t-[2rem] md:rounded-t-[3rem] shadow-2xl">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {stats.map((stat, idx) => (
-              <div key={idx} className="flex flex-col items-center text-center p-6 bg-background border rounded-2xl shadow-sm hover:shadow-md transition-shadow group">
-                <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <stat.icon className="h-7 w-7 text-primary" />
+              <div key={idx} className="flex flex-col items-center text-center p-10 bg-background border rounded-[3rem] shadow-sm hover:shadow-2xl transition-all group hover:-translate-y-2">
+                <div className="w-20 h-20 bg-primary/10 rounded-[2rem] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <stat.icon className="h-10 w-10 text-primary" />
                 </div>
-                <div className="text-3xl md:text-4xl font-headline font-bold text-primary mb-1">{stat.value}</div>
-                <div className="text-sm md:text-base text-muted-foreground font-medium">{stat.label}</div>
+                <div className="text-4xl md:text-6xl font-headline font-bold text-primary mb-2 tracking-tighter">{stat.value}</div>
+                <div className="text-sm md:text-lg text-muted-foreground font-bold uppercase tracking-[0.2em]">{stat.label}</div>
               </div>
             ))}
           </div>
