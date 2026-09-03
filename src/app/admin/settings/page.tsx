@@ -17,7 +17,8 @@ import {
   Phone, 
   Image as ImageIcon,
   Layout,
-  Upload
+  Upload,
+  CheckCircle2
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -215,27 +216,36 @@ export default function AdminSettingsPage() {
             <CardContent className="space-y-8">
               {/* Logo Upload Section */}
               <div className="space-y-4">
-                <Label className="text-lg font-bold">Logo de l'ONG</Label>
+                <Label className="text-lg font-bold flex items-center gap-2">
+                  Logo Officiel <CheckCircle2 className="h-4 w-4 text-secondary" />
+                </Label>
                 <div className="flex flex-col md:flex-row gap-6 items-start">
-                  <div className="w-32 h-32 bg-muted rounded-2xl border-2 border-dashed flex items-center justify-center overflow-hidden">
+                  <div className="w-40 h-40 bg-muted rounded-2xl border-2 border-dashed flex items-center justify-center overflow-hidden relative group">
                     {formData.logoUrl ? (
-                      <img src={formData.logoUrl} alt="Logo Preview" className="w-full h-full object-contain p-2" />
+                      <>
+                        <img src={formData.logoUrl} alt="Logo Preview" className="w-full h-full object-contain p-4" />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                          <span className="text-white text-xs font-bold">Aperçu Actuel</span>
+                        </div>
+                      </>
                     ) : (
-                      <ImageIcon className="h-10 w-10 text-muted-foreground" />
+                      <ImageIcon className="h-12 w-12 text-muted-foreground" />
                     )}
                   </div>
                   <div className="flex-grow space-y-4 w-full">
                     <div className="space-y-2">
-                      <Label>Télécharger le logo (PNG ou SVG)</Label>
-                      <Input 
-                        type="file" 
-                        accept="image/*"
-                        onChange={(e) => handleFileUpload(e, 'logoUrl')}
-                        className="rounded-xl cursor-pointer file:bg-primary file:text-white file:border-none file:rounded-lg file:px-3 file:py-1 file:mr-3 file:hover:bg-primary/90"
-                      />
+                      <Label>Télécharger le nouveau logo</Label>
+                      <div className="flex items-center gap-2">
+                        <Input 
+                          type="file" 
+                          accept="image/*"
+                          onChange={(e) => handleFileUpload(e, 'logoUrl')}
+                          className="rounded-xl cursor-pointer file:bg-primary file:text-white file:border-none file:rounded-lg file:px-3 file:py-1 file:mr-3 file:hover:bg-primary/90"
+                        />
+                      </div>
                     </div>
                     <div className="space-y-2">
-                      <Label>Ou URL du Logo</Label>
+                      <Label>Ou spécifier une URL directe</Label>
                       <Input 
                         placeholder="https://..." 
                         value={formData.logoUrl}
@@ -243,7 +253,9 @@ export default function AdminSettingsPage() {
                         className="rounded-xl h-11"
                       />
                     </div>
-                    <p className="text-xs text-muted-foreground italic">S'affichera dans la barre de navigation et le pied de page.</p>
+                    <p className="text-xs text-muted-foreground italic">
+                      Ce logo sera affiché dans la barre de navigation et le pied de page du site.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -252,21 +264,21 @@ export default function AdminSettingsPage() {
 
               {/* Hero Image Upload Section */}
               <div className="space-y-4">
-                <Label className="text-lg font-bold">Image de la Page d'Accueil (Hero)</Label>
+                <Label className="text-lg font-bold">Image de Bienvenue (Hero)</Label>
                 <div className="space-y-6">
-                  <div className="aspect-[21/9] w-full bg-muted rounded-2xl border-2 border-dashed flex items-center justify-center overflow-hidden relative">
+                  <div className="aspect-[21/9] w-full bg-muted rounded-2xl border-2 border-dashed flex items-center justify-center overflow-hidden relative shadow-inner">
                     {formData.heroImageUrl ? (
                       <img src={formData.heroImageUrl} alt="Hero Preview" className="w-full h-full object-cover" />
                     ) : (
                       <div className="flex flex-col items-center gap-2">
                         <Layout className="h-12 w-12 text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">Aucune image configurée</span>
+                        <span className="text-sm text-muted-foreground">Aucun visuel configuré</span>
                       </div>
                     )}
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label>Télécharger une nouvelle image Hero</Label>
+                      <Label>Mettre à jour l'image Hero</Label>
                       <Input 
                         type="file" 
                         accept="image/*"
@@ -275,7 +287,7 @@ export default function AdminSettingsPage() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label>URL de l'image Hero</Label>
+                      <Label>Lien de l'image</Label>
                       <Input 
                         placeholder="https://..." 
                         value={formData.heroImageUrl}
@@ -284,7 +296,6 @@ export default function AdminSettingsPage() {
                       />
                     </div>
                   </div>
-                  <p className="text-xs text-muted-foreground italic text-center">Image grand format affichée à l'ouverture du site.</p>
                 </div>
               </div>
             </CardContent>

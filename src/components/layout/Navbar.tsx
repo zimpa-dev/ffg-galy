@@ -58,10 +58,17 @@ export function Navbar() {
       <div className="container mx-auto px-4 flex h-20 items-center justify-between">
         {/* Logo Section */}
         <div className="flex items-center gap-10">
-          <Link href="/" className="flex items-center space-x-3 group transition-transform hover:scale-102">
+          <Link href="/" className="flex items-center space-x-3 group transition-transform hover:scale-105">
             {settings?.logoUrl ? (
-              <div className="relative h-10 w-auto">
-                <img src={settings.logoUrl} alt="Logo" className="h-10 w-auto object-contain" />
+              <div className="relative h-12 w-auto min-w-[40px] flex items-center">
+                <img 
+                  src={settings.logoUrl} 
+                  alt={settings?.orgName || "Logo"} 
+                  className={cn(
+                    "h-10 w-auto object-contain transition-all",
+                    theme === 'dark' && !settings.logoUrl.includes('data:') && "brightness-0 invert"
+                  )} 
+                />
               </div>
             ) : (
               <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
@@ -94,7 +101,6 @@ export function Navbar() {
 
         {/* Action Controls */}
         <div className="flex items-center gap-3 sm:gap-4">
-          {/* Language Switcher */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" className="rounded-full gap-2 px-3 h-10 border border-transparent hover:border-border transition-all">
@@ -116,7 +122,6 @@ export function Navbar() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Theme & Auth */}
           <div className="hidden sm:flex items-center gap-2">
             <Button
               variant="ghost"
@@ -143,7 +148,6 @@ export function Navbar() {
             )}
           </div>
 
-          {/* Main CTA */}
           <Link href="/donate">
             <Button className="hidden sm:flex font-bold shadow-xl shadow-secondary/20 bg-secondary hover:bg-secondary/90 text-white rounded-full px-8 h-12 transition-all hover:scale-105 active:scale-95">
               <Heart className="mr-2 h-4 w-4 fill-current" />
@@ -151,7 +155,6 @@ export function Navbar() {
             </Button>
           </Link>
 
-          {/* Mobile Menu Toggle */}
           <button
             className="lg:hidden p-2 rounded-xl bg-muted/50 text-foreground transition-colors hover:bg-muted"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -161,7 +164,6 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
       {isMenuOpen && (
         <div className="lg:hidden fixed inset-x-0 top-20 bg-background border-b shadow-2xl animate-in slide-in-from-top duration-300 overflow-y-auto max-h-[calc(100vh-80px)]">
           <div className="container mx-auto px-6 py-8 space-y-6">
@@ -184,24 +186,6 @@ export function Navbar() {
             </div>
             
             <div className="pt-6 border-t flex flex-col gap-4">
-              <div className="flex items-center justify-between px-2">
-                <span className="text-sm font-bold text-muted-foreground uppercase tracking-widest">{t.nav.admin}</span>
-                <div className="flex gap-2">
-                   <Button
-                    variant="ghost"
-                    size="icon"
-                    className="rounded-full h-12 w-12 bg-muted/50"
-                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  >
-                    {theme === "dark" ? <Sun className="h-5 w-5 text-amber-500" /> : <Moon className="h-5 w-5 text-blue-500" />}
-                  </Button>
-                  <Link href="/login" onClick={() => setIsMenuOpen(false)}>
-                    <Button variant="outline" className="rounded-full h-12 w-12 px-0 bg-muted/50 border-none">
-                      <User className="h-5 w-5" />
-                    </Button>
-                  </Link>
-                </div>
-              </div>
               <Link href="/donate" onClick={() => setIsMenuOpen(false)}>
                 <Button className="w-full bg-secondary text-white font-bold h-14 rounded-2xl shadow-xl shadow-secondary/20 text-lg">
                   {t.nav.donate}
