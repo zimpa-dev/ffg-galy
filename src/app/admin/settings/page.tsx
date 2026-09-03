@@ -18,7 +18,11 @@ import {
   Image as ImageIcon,
   Layout,
   Upload,
-  CheckCircle2
+  CheckCircle2,
+  Coins,
+  Plus,
+  Trash2,
+  ListChecks
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -33,6 +37,7 @@ export default function AdminSettingsPage() {
   const db = useFirestore();
   const { toast } = useToast();
   const [isSaving, setIsSaving] = React.useState(false);
+  const [newReason, setNewReason] = React.useState("");
 
   const settingsRef = React.useMemo(() => {
     if (!db) return null;
@@ -48,7 +53,8 @@ export default function AdminSettingsPage() {
     heroImageUrl: "",
     contactEmail: "contact@ffg-ve.org",
     contactPhone: "+33 1 23 45 67 89",
-    contactAddress: "75001 Paris, France"
+    contactAddress: "75001 Paris, France",
+    donationReasons: [] as string[]
   });
 
   React.useEffect(() => {
@@ -60,7 +66,8 @@ export default function AdminSettingsPage() {
         heroImageUrl: settingsData.heroImageUrl || "",
         contactEmail: settingsData.contactEmail || "contact@ffg-ve.org",
         contactPhone: settingsData.contactPhone || "+33 1 23 45 67 89",
-        contactAddress: settingsData.contactAddress || "75001 Paris, France"
+        contactAddress: settingsData.contactAddress || "75001 Paris, France",
+        donationReasons: settingsData.donationReasons || []
       });
     }
   }, [settingsData]);
@@ -113,6 +120,22 @@ export default function AdminSettingsPage() {
     }
   };
 
+  const addDonationReason = () => {
+    if (!newReason.trim()) return;
+    setFormData({
+      ...formData,
+      donationReasons: [...formData.donationReasons, newReason.trim()]
+    });
+    setNewReason("");
+  };
+
+  const removeDonationReason = (index: number) => {
+    setFormData({
+      ...formData,
+      donationReasons: formData.donationReasons.filter((_, i) => i !== index)
+    });
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center p-20">
@@ -145,6 +168,9 @@ export default function AdminSettingsPage() {
           </TabsTrigger>
           <TabsTrigger value="media" className="rounded-xl px-6 py-3 data-[state=active]:bg-primary data-[state=active]:text-white transition-all gap-2">
             <ImageIcon className="h-4 w-4" /> Logo & Images
+          </TabsTrigger>
+          <TabsTrigger value="donations" className="rounded-xl px-6 py-3 data-[state=active]:bg-primary data-[state=active]:text-white transition-all gap-2">
+            <Coins className="h-4 w-4" /> Dons
           </TabsTrigger>
           <TabsTrigger value="appearance" className="rounded-xl px-6 py-3 data-[state=active]:bg-primary data-[state=active]:text-white transition-all gap-2">
             <Palette className="h-4 w-4" /> Apparence
@@ -214,7 +240,6 @@ export default function AdminSettingsPage() {
               <CardDescription>Gérez l'image de marque et les visuels principaux.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-8">
-              {/* Logo Upload Section */}
               <div className="space-y-4">
                 <Label className="text-lg font-bold flex items-center gap-2">
                   Logo Officiel <CheckCircle2 className="h-4 w-4 text-secondary" />
@@ -253,16 +278,12 @@ export default function AdminSettingsPage() {
                         className="rounded-xl h-11"
                       />
                     </div>
-                    <p className="text-xs text-muted-foreground italic">
-                      Ce logo sera affiché dans la barre de navigation et le pied de page du site.
-                    </p>
                   </div>
                 </div>
               </div>
 
               <Separator />
 
-              {/* Hero Image Upload Section */}
               <div className="space-y-4">
                 <Label className="text-lg font-bold">Image de Bienvenue (Hero)</Label>
                 <div className="space-y-6">
@@ -297,6 +318,57 @@ export default function AdminSettingsPage() {
                     </div>
                   </div>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="donations" className="space-y-6">
+          <Card className="border-none shadow-xl rounded-2xl overflow-hidden">
+            <CardHeader>
+              <div className="flex items-center gap-2 text-primary">
+                <ListChecks className="h-5 w-5" />
+                <CardTitle>Arguments de Don</CardTitle>
+              </div>
+              <CardDescription>Gérez les raisons pour lesquelles vos donateurs devraient vous soutenir.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex gap-2">
+                <Input 
+                  placeholder="Nouvel argument (ex: 82% des fonds sont reversés...)" 
+                  value={newReason}
+                  onChange={(e) => setNewReason(e.target.value)}
+                  className="rounded-xl"
+                  onKeyPress={(e) => e.key === 'Enter' && addDonationReason()}
+                />
+                <Button onClick={addDonationReason} className="rounded-xl gap-2">
+                  <Plus className="h-4 w-4" /> Ajouter
+                </Button>
+              </div>
+
+              <div className="space-y-3">
+                {formData.donationReasons.length > 0 ? (
+                  formData.donationReasons.map((reason, index) => (
+                    <div key={index} className="flex items-center justify-between p-4 bg-muted/30 rounded-xl border group">
+                      <div className="flex items-center gap-3">
+                        <CheckCircle2 className="h-5 w-5 text-secondary" />
+                        <span className="text-sm font-medium">{reason}</span>
+                      </div>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                        onClick={() => removeDonationReason(index)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))
+                ) : (
+                  <div className="p-8 text-center text-muted-foreground italic border-2 border-dashed rounded-xl">
+                    Aucun argument configuré. Les valeurs par défaut seront affichées sur le site.
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>

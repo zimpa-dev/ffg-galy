@@ -26,6 +26,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
+import { useFirestore, useDoc } from "@/firebase"
+import { doc } from "firebase/firestore"
 
 const donationAmounts = [
   { value: "30", label: "30 €", impact: "Fournit du matériel scolaire pour 2 enfants." },
@@ -34,12 +36,31 @@ const donationAmounts = [
   { value: "250", label: "250 €", impact: "Parraine la scolarité complète d'un enfant pour un an." },
 ]
 
+const defaultReasons = [
+  "82% des fonds sont reversés directement aux programmes.",
+  "Dons en nature : redistribution directe aux communautés locales.",
+  "Déduction fiscale : 66% de votre don financier est déductible.",
+  "Transparence certifiée par des audits indépendants."
+];
+
 export default function DonatePage() {
   const { toast } = useToast()
+  const db = useFirestore()
   const [amount, setAmount] = React.useState("50")
   const [customAmount, setCustomAmount] = React.useState("")
   const [frequency, setFrequency] = React.useState("once")
   const [isSubmitting, setIsSubmitting] = React.useState(false)
+
+  const settingsRef = React.useMemo(() => {
+    if (!db) return null;
+    return doc(db, "site_settings", "general");
+  }, [db]);
+
+  const { data: settings } = useDoc(settingsRef);
+
+  const donationReasons = settings?.donationReasons?.length > 0 
+    ? settings.donationReasons 
+    : defaultReasons;
 
   const handleMonetaryDonation = (e: React.FormEvent) => {
     e.preventDefault()
@@ -80,12 +101,7 @@ export default function DonatePage() {
           <div className="space-y-6">
             <h2 className="text-2xl font-headline font-bold">Pourquoi nous soutenir ?</h2>
             <div className="space-y-4">
-              {[
-                "82% des fonds sont reversés directement aux programmes.",
-                "Dons en nature : redistribution directe aux communautés locales.",
-                "Déduction fiscale : 66% de votre don financier est déductible.",
-                "Transparence certifiée par des audits indépendants."
-              ].map((item, idx) => (
+              {donationReasons.map((item, idx) => (
                 <div key={idx} className="flex items-start gap-3">
                   <CheckCircle2 className="h-6 w-6 text-secondary flex-shrink-0" />
                   <p className="text-muted-foreground font-medium">{item}</p>
@@ -123,7 +139,6 @@ export default function DonatePage() {
               </TabsTrigger>
             </TabsList>
 
-            {/* Monetary Donations Content */}
             {(frequency === "once" || frequency === "monthly") && (
               <TabsContent value={frequency} className="p-8 md:p-12 space-y-10 mt-0">
                 <form onSubmit={handleMonetaryDonation} className="space-y-8">
@@ -200,7 +215,6 @@ export default function DonatePage() {
               </TabsContent>
             )}
 
-            {/* In-Kind Donation Content */}
             <TabsContent value="nature" className="p-8 md:p-12 space-y-10 mt-0 animate-in fade-in slide-in-from-right-4">
               <form onSubmit={handleInKindDonation} className="space-y-8">
                 <div className="space-y-6">

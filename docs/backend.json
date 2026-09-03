@@ -82,7 +82,8 @@
         "logoUrl": { "type": "string" },
         "heroImageUrl": { "type": "string" },
         "orgName": { "type": "string" },
-        "slogan": { "type": "string" }
+        "slogan": { "type": "string" },
+        "donationReasons": { "type": "array", "items": { "type": "string" } }
       }
     }
   },
