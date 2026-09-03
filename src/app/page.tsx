@@ -23,12 +23,31 @@ export default function Home() {
 
   const { data: settings, loading } = useDoc(settingsRef);
 
-  const stats = [
-    { label: t.home.stats.beneficiaries, value: "2.5M+", icon: Heart },
-    { label: t.home.stats.countries, value: "35", icon: Globe },
-    { label: t.home.stats.projects, value: "1,200+", icon: CheckCircle2 },
-    { label: t.home.stats.volunteers, value: "15,000+", icon: Users },
-  ];
+  const stats = React.useMemo(() => {
+    const s = settings?.stats || {};
+    return [
+      { 
+        label: t.home.stats.beneficiaries, 
+        value: s.beneficiaries || "2.5M+", 
+        icon: Heart 
+      },
+      { 
+        label: t.home.stats.countries, 
+        value: s.countries || "35", 
+        icon: Globe 
+      },
+      { 
+        label: t.home.stats.projects, 
+        value: s.projects || "1,200+", 
+        icon: CheckCircle2 
+      },
+      { 
+        label: t.home.stats.volunteers, 
+        value: s.volunteers || "15,000+", 
+        icon: Users 
+      },
+    ];
+  }, [settings, t]);
 
   if (loading) {
     return (

@@ -5,24 +5,19 @@ import * as React from "react";
 import { useFirestore, useDoc } from "@/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { 
-  Settings, 
   Globe, 
-  Shield, 
-  Bell, 
   Palette, 
-  Share2, 
   Save, 
   Loader2, 
-  Mail, 
-  Phone, 
   Image as ImageIcon,
-  Layout,
-  Upload,
   CheckCircle2,
   Coins,
   Plus,
   Trash2,
-  ListChecks
+  ListChecks,
+  TrendingUp,
+  Heart,
+  Users
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -54,7 +49,13 @@ export default function AdminSettingsPage() {
     contactEmail: "contact@ffg-ve.org",
     contactPhone: "+33 1 23 45 67 89",
     contactAddress: "75001 Paris, France",
-    donationReasons: [] as string[]
+    donationReasons: [] as string[],
+    stats: {
+      beneficiaries: "2.5M+",
+      countries: "35",
+      projects: "1,200+",
+      volunteers: "15,000+"
+    }
   });
 
   React.useEffect(() => {
@@ -67,7 +68,13 @@ export default function AdminSettingsPage() {
         contactEmail: settingsData.contactEmail || "contact@ffg-ve.org",
         contactPhone: settingsData.contactPhone || "+33 1 23 45 67 89",
         contactAddress: settingsData.contactAddress || "75001 Paris, France",
-        donationReasons: settingsData.donationReasons || []
+        donationReasons: settingsData.donationReasons || [],
+        stats: settingsData.stats || {
+          beneficiaries: "2.5M+",
+          countries: "35",
+          projects: "1,200+",
+          volunteers: "15,000+"
+        }
       });
     }
   }, [settingsData]);
@@ -168,6 +175,9 @@ export default function AdminSettingsPage() {
           </TabsTrigger>
           <TabsTrigger value="media" className="rounded-xl px-6 py-3 data-[state=active]:bg-primary data-[state=active]:text-white transition-all gap-2">
             <ImageIcon className="h-4 w-4" /> Logo & Images
+          </TabsTrigger>
+          <TabsTrigger value="impact" className="rounded-xl px-6 py-3 data-[state=active]:bg-primary data-[state=active]:text-white transition-all gap-2">
+            <TrendingUp className="h-4 w-4" /> Impact & Chiffres
           </TabsTrigger>
           <TabsTrigger value="donations" className="rounded-xl px-6 py-3 data-[state=active]:bg-primary data-[state=active]:text-white transition-all gap-2">
             <Coins className="h-4 w-4" /> Dons
@@ -292,7 +302,7 @@ export default function AdminSettingsPage() {
                       <img src={formData.heroImageUrl} alt="Hero Preview" className="w-full h-full object-cover" />
                     ) : (
                       <div className="flex flex-col items-center gap-2">
-                        <Layout className="h-12 w-12 text-muted-foreground" />
+                        <ImageIcon className="h-12 w-12 text-muted-foreground" />
                         <span className="text-sm text-muted-foreground">Aucun visuel configuré</span>
                       </div>
                     )}
@@ -317,6 +327,67 @@ export default function AdminSettingsPage() {
                       />
                     </div>
                   </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="impact" className="space-y-6">
+          <Card className="border-none shadow-xl rounded-2xl overflow-hidden">
+            <CardHeader>
+              <CardTitle>Impact Global</CardTitle>
+              <CardDescription>Mettez à jour les chiffres clés affichés sur la page d'accueil.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label className="flex items-center gap-2"><Heart className="h-4 w-4 text-primary" /> Bénéficiaires</Label>
+                  <Input 
+                    value={formData.stats.beneficiaries} 
+                    onChange={(e) => setFormData({
+                      ...formData, 
+                      stats: { ...formData.stats, beneficiaries: e.target.value }
+                    })}
+                    className="rounded-xl h-11"
+                    placeholder="Ex: 2.5M+"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label className="flex items-center gap-2"><Globe className="h-4 w-4 text-primary" /> Pays d'intervention</Label>
+                  <Input 
+                    value={formData.stats.countries} 
+                    onChange={(e) => setFormData({
+                      ...formData, 
+                      stats: { ...formData.stats, countries: e.target.value }
+                    })}
+                    className="rounded-xl h-11"
+                    placeholder="Ex: 35"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-primary" /> Projets réalisés</Label>
+                  <Input 
+                    value={formData.stats.projects} 
+                    onChange={(e) => setFormData({
+                      ...formData, 
+                      stats: { ...formData.stats, projects: e.target.value }
+                    })}
+                    className="rounded-xl h-11"
+                    placeholder="Ex: 1,200+"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label className="flex items-center gap-2"><Users className="h-4 w-4 text-primary" /> Bénévoles actifs</Label>
+                  <Input 
+                    value={formData.stats.volunteers} 
+                    onChange={(e) => setFormData({
+                      ...formData, 
+                      stats: { ...formData.stats, volunteers: e.target.value }
+                    })}
+                    className="rounded-xl h-11"
+                    placeholder="Ex: 15,000+"
+                  />
                 </div>
               </div>
             </CardContent>
