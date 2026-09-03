@@ -1,4 +1,3 @@
-
 import type { Metadata } from 'next';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
@@ -9,8 +8,8 @@ import { FirebaseClientProvider } from '@/firebase';
 import { LanguageProvider } from '@/components/language-provider';
 
 export const metadata: Metadata = {
-  title: 'FFG-VE Horizon | Ensemble pour un monde plus solidaire',
-  description: 'ONG humanitaire internationale dédiée à l’éducation, la santé et le développement durable.',
+  title: 'FFG-VE Horizon | Gemeinsam für eine solidarischere Welt',
+  description: 'Internationale humanitäre NGO für Bildung, Gesundheit und nachhaltige Entwicklung.',
 };
 
 export default function RootLayout({
@@ -19,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang="de" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
