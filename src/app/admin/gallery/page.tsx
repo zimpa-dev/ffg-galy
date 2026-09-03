@@ -1,8 +1,7 @@
-
 'use client';
 
 import * as React from "react";
-import { useFirestore, useCollection } from "@/firebase";
+import { useFirestore, useCollection, errorEmitter, FirestorePermissionError } from "@/firebase";
 import { collection, addDoc, deleteDoc, doc, query, orderBy } from "firebase/firestore";
 import { 
   Image as ImageIcon, 
@@ -13,8 +12,7 @@ import {
   Calendar, 
   Tag, 
   Type, 
-  AlignLeft,
-  Upload
+  AlignLeft
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -49,11 +47,12 @@ export default function AdminGalleryPage() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 2 * 1024 * 1024) {
+      // Limit reduced to 500KB to ensure base64 stays under Firestore 1MB doc limit
+      if (file.size > 0.5 * 1024 * 1024) {
         toast({
           variant: "destructive",
-          title: "Fichier trop volumineux",
-          description: "Veuillez choisir une image de moins de 2 Mo.",
+          title: "Image trop lourde",
+          description: "Veuillez choisir une image de moins de 500 Ko pour le stockage direct.",
         });
         return;
       }
@@ -66,56 +65,64 @@ export default function AdminGalleryPage() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!db) return;
     
     setIsSubmitting(true);
-    try {
-      await addDoc(collection(db, "gallery"), {
-        ...formData,
-        createdAt: new Date().toISOString()
+    const galleryRef = collection(db, "gallery");
+    const newDocData = {
+      ...formData,
+      createdAt: new Date().toISOString()
+    };
+
+    // Non-blocking mutation
+    addDoc(galleryRef, newDocData)
+      .then(() => {
+        setFormData({
+          title: "",
+          category: "health",
+          image: "",
+          location: "",
+          date: "",
+          description: ""
+        });
+        toast({
+          title: "Photo ajoutée",
+          description: "L'image a été intégrée à la galerie.",
+        });
+      })
+      .catch(async (error) => {
+        const permissionError = new FirestorePermissionError({
+          path: 'gallery',
+          operation: 'create',
+          requestResourceData: newDocData,
+        });
+        errorEmitter.emit('permission-error', permissionError);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
       });
-      
-      setFormData({
-        title: "",
-        category: "health",
-        image: "",
-        location: "",
-        date: "",
-        description: ""
-      });
-      
-      toast({
-        title: "Photo ajoutée",
-        description: "L'image a été intégrée à la galerie avec succès.",
-      });
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Erreur",
-        description: "Impossible d'ajouter l'image.",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = (id: string) => {
     if (!db) return;
-    try {
-      await deleteDoc(doc(db, "gallery", id));
-      toast({
-        title: "Supprimé",
-        description: "L'image a été retirée de la galerie.",
+    const docRef = doc(db, "gallery", id);
+    
+    deleteDoc(docRef)
+      .then(() => {
+        toast({
+          title: "Supprimé",
+          description: "L'image a été retirée.",
+        });
+      })
+      .catch(async () => {
+        const permissionError = new FirestorePermissionError({
+          path: `gallery/${id}`,
+          operation: 'delete',
+        });
+        errorEmitter.emit('permission-error', permissionError);
       });
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Erreur",
-        description: "Impossible de supprimer l'image.",
-      });
-    }
   };
 
   const categories = [
@@ -131,16 +138,15 @@ export default function AdminGalleryPage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-headline font-bold">Gestion de la Galerie</h1>
-          <p className="text-muted-foreground text-sm">Ajoutez les moments forts de FFG-VE pour témoigner de votre impact.</p>
+          <p className="text-muted-foreground text-sm">Ajoutez les moments forts de FFG-VE.</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Form Column */}
         <Card className="lg:col-span-1 shadow-xl border-none h-fit rounded-2xl">
           <CardHeader>
             <CardTitle>Nouvelle Image</CardTitle>
-            <CardDescription>Remplissez les détails du projet ou de l'événement.</CardDescription>
+            <CardDescription>Téléchargez ou liez une image.</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -152,7 +158,6 @@ export default function AdminGalleryPage() {
                   value={formData.title}
                   onChange={(e) => setFormData({...formData, title: e.target.value})}
                   className="rounded-xl"
-                  placeholder="Ex: Mission Togo"
                 />
               </div>
 
@@ -163,7 +168,7 @@ export default function AdminGalleryPage() {
                   onValueChange={(v) => setFormData({...formData, category: v})}
                 >
                   <SelectTrigger className="rounded-xl">
-                    <SelectValue placeholder="Choisir une catégorie" />
+                    <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl">
                     {categories.map(cat => (
@@ -176,28 +181,22 @@ export default function AdminGalleryPage() {
               <div className="space-y-2">
                 <Label className="flex items-center gap-2"><ImageIcon className="h-4 w-4" /> Image</Label>
                 <div className="space-y-3">
-                  <div className="flex flex-col gap-2">
-                    <Input 
-                      type="file" 
-                      accept="image/*"
-                      onChange={handleFileChange}
-                      className="rounded-xl cursor-pointer file:bg-primary file:text-white file:border-none file:rounded-lg file:px-3 file:py-1 file:mr-3 file:hover:bg-primary/90"
-                    />
-                    <div className="text-center text-[10px] text-muted-foreground uppercase font-bold">Ou utiliser une URL</div>
-                    <Input 
-                      required 
-                      value={formData.image}
-                      onChange={(e) => setFormData({...formData, image: e.target.value})}
-                      className="rounded-xl"
-                      placeholder="https://..."
-                    />
-                  </div>
+                  <Input 
+                    type="file" 
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="rounded-xl cursor-pointer file:bg-primary file:text-white file:border-none file:rounded-lg file:px-3 file:py-1 file:mr-3"
+                  />
+                  <div className="text-center text-[10px] text-muted-foreground font-bold">OU URL</div>
+                  <Input 
+                    value={formData.image}
+                    onChange={(e) => setFormData({...formData, image: e.target.value})}
+                    className="rounded-xl"
+                    placeholder="https://..."
+                  />
                   {formData.image && (
-                    <div className="relative aspect-video rounded-xl overflow-hidden border bg-muted group">
+                    <div className="relative aspect-video rounded-xl overflow-hidden border bg-muted">
                       <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span className="text-white text-xs font-bold">Aperçu de l'image</span>
-                      </div>
                     </div>
                   )}
                 </div>
@@ -211,7 +210,6 @@ export default function AdminGalleryPage() {
                     value={formData.location}
                     onChange={(e) => setFormData({...formData, location: e.target.value})}
                     className="rounded-xl"
-                    placeholder="Ville, Pays"
                   />
                 </div>
                 <div className="space-y-2">
@@ -221,7 +219,6 @@ export default function AdminGalleryPage() {
                     value={formData.date}
                     onChange={(e) => setFormData({...formData, date: e.target.value})}
                     className="rounded-xl"
-                    placeholder="Mois Année"
                   />
                 </div>
               </div>
@@ -233,11 +230,10 @@ export default function AdminGalleryPage() {
                   value={formData.description}
                   onChange={(e) => setFormData({...formData, description: e.target.value})}
                   className="rounded-xl min-h-[100px]"
-                  placeholder="Détails de l'action..."
                 />
               </div>
 
-              <Button type="submit" disabled={isSubmitting || !formData.image} className="w-full rounded-xl h-12 shadow-lg transition-all hover:scale-[1.02]">
+              <Button type="submit" disabled={isSubmitting || !formData.image} className="w-full rounded-xl h-12 shadow-lg">
                 {isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
                 Ajouter à la galerie
               </Button>
@@ -245,11 +241,10 @@ export default function AdminGalleryPage() {
           </CardContent>
         </Card>
 
-        {/* List Column */}
         <Card className="lg:col-span-2 shadow-xl border-none rounded-2xl">
           <CardHeader>
             <CardTitle>Images de la Galerie</CardTitle>
-            <CardDescription>Visualisez et gérez les éléments affichés publiquement.</CardDescription>
+            <CardDescription>Gérez les éléments publics.</CardDescription>
           </CardHeader>
           <CardContent>
             {loading ? (
@@ -276,21 +271,19 @@ export default function AdminGalleryPage() {
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
-                    <CardContent className="p-4 space-y-2">
-                      <p className="font-bold truncate">{item.title}</p>
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <MapPin className="h-3 w-3" /> {item.location || "-"}
-                        <span className="mx-1">•</span>
-                        <Calendar className="h-3 w-3" /> {item.date || "-"}
-                      </div>
+                    <CardContent className="p-4 space-y-1">
+                      <p className="font-bold truncate text-sm">{item.title}</p>
+                      <p className="text-[10px] text-muted-foreground flex items-center gap-1">
+                        <MapPin className="h-2 w-2" /> {item.location || "-"}
+                      </p>
                     </CardContent>
                   </Card>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-20 bg-muted/10 rounded-2xl border-2 border-dashed">
-                <ImageIcon className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground italic">Aucune image dans la galerie pour le moment.</p>
+              <div className="text-center py-20 opacity-50 italic">
+                <ImageIcon className="h-12 w-12 mx-auto mb-4" />
+                <p>Aucune image.</p>
               </div>
             )}
           </CardContent>
