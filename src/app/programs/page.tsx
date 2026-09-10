@@ -20,6 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { useLanguage } from "@/components/language-provider";
 
 // Map string icons to Lucide components
 const iconMap: Record<string, any> = {
@@ -34,7 +35,8 @@ const iconMap: Record<string, any> = {
 
 export default function ProgramsPage() {
   const db = useFirestore();
-  
+  const { t } = useLanguage();
+
   const programsQuery = React.useMemo(() => {
     if (!db) return null;
     return query(collection(db, "programs"), orderBy("createdAt", "desc"));
@@ -45,9 +47,9 @@ export default function ProgramsPage() {
   return (
     <div className="py-16 md:py-20 space-y-16 md:space-y-24">
       <div className="container mx-auto px-4 text-center max-w-3xl space-y-6">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-headline font-bold text-primary">Nos Programmes</h1>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-headline font-bold text-primary">{t.programsPage.title}</h1>
         <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
-          Nous intervenons à travers des programmes structurés pour répondre aux besoins fondamentaux tout en préparant un avenir autonome pour les populations.
+          {t.programsPage.subtitle}
         </p>
       </div>
 
@@ -85,7 +87,7 @@ export default function ProgramsPage() {
                     <div className="pt-4">
                       <Link href="/donate">
                         <Button variant="ghost" className="p-0 h-auto font-bold text-primary hover:bg-transparent hover:text-primary/80 group/btn">
-                          Soutenir ce programme <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                          {t.programsPage.supportBtn} <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
                         </Button>
                       </Link>
                     </div>
@@ -100,16 +102,16 @@ export default function ProgramsPage() {
       <section className="bg-primary text-white py-16 md:py-20 overflow-hidden">
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-10 md:gap-12">
           <div className="space-y-6 max-w-xl text-center md:text-left">
-            <h2 className="text-3xl sm:text-4xl font-headline font-bold">Vous souhaitez en faire plus ?</h2>
+            <h2 className="text-3xl sm:text-4xl font-headline font-bold">{t.programsPage.ctaTitle}</h2>
             <p className="text-lg sm:text-xl text-primary-foreground/80 leading-relaxed">
-              Nous recherchons constamment des partenaires et des experts pour renforcer l'impact de nos programmes.
+              {t.programsPage.ctaText}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
               <Link href="/volunteer" className="w-full sm:w-auto">
-                <Button className="w-full bg-secondary text-white font-bold h-12 px-8">Devenir Partenaire</Button>
+                <Button className="w-full bg-secondary text-white font-bold h-12 px-8">{t.programsPage.ctaPartnerBtn}</Button>
               </Link>
               <Link href="/contact" className="w-full sm:w-auto">
-                <Button variant="outline" className="w-full border-white text-white hover:bg-white/10 h-12 px-8 font-bold">Nous Contacter</Button>
+                <Button variant="outline" className="w-full border-white text-white hover:bg-white/10 h-12 px-8 font-bold">{t.programsPage.ctaContactBtn}</Button>
               </Link>
             </div>
           </div>

@@ -8,9 +8,11 @@ import { PlaceHolderImages } from "@/lib/placeholder-images"
 import { Card, CardContent } from "@/components/ui/card"
 import { useFirestore, useDoc } from "@/firebase"
 import { doc } from "firebase/firestore"
+import { useLanguage } from "@/components/language-provider"
 
 export default function AboutPage() {
   const db = useFirestore();
+  const { t } = useLanguage();
   const aboutDocRef = React.useMemo(() => {
     if (!db) return null;
     return doc(db, "site_content", "about");
@@ -19,10 +21,10 @@ export default function AboutPage() {
   const { data: aboutData, loading } = useDoc(aboutDocRef);
 
   const values = [
-    { title: "Solidarité", desc: "Nous croyons en la force du collectif pour surmonter les défis.", icon: Heart },
-    { title: "Transparence", desc: "Une gestion rigoureuse et des comptes ouverts à tous.", icon: Shield },
-    { title: "Intégrité", desc: "Nos actions reflètent nos paroles, partout dans le monde.", icon: Target },
-    { title: "Inclusion", desc: "Aider sans distinction de race, de religion ou de genre.", icon: Users2 },
+    { title: t.about.values.solidarity, desc: t.aboutPage.valueDesc.solidarity, icon: Heart },
+    { title: t.about.values.transparency, desc: t.aboutPage.valueDesc.transparency, icon: Shield },
+    { title: t.about.values.integrity, desc: t.aboutPage.valueDesc.integrity, icon: Target },
+    { title: t.about.values.inclusion, desc: t.aboutPage.valueDesc.inclusion, icon: Users2 },
   ]
 
   if (loading) {
@@ -34,19 +36,19 @@ export default function AboutPage() {
   }
 
   const defaultTeam = [
-    { id: "1", name: "Dr. Amadou Diallo", role: "Président Fondateur", img: PlaceHolderImages.find(i => i.id === "team-leader")?.imageUrl },
-    { id: "2", name: "Marie Dubois", role: "Directrice des Programmes", img: "https://picsum.photos/seed/team2/400/400" },
-    { id: "3", name: "Sven Müller", role: "Trésorier", img: "https://picsum.photos/seed/team3/400/400" },
-    { id: "4", name: "Fatima Al-Sayed", role: "Responsable Logistique", img: "https://picsum.photos/seed/team4/400/400" },
+    { id: "1", name: "Dr. Amadou Diallo", role: t.aboutPage.roles.founder, img: PlaceHolderImages.find(i => i.id === "team-leader")?.imageUrl },
+    { id: "2", name: "Marie Dubois", role: t.aboutPage.roles.programs, img: "https://picsum.photos/seed/team2/400/400" },
+    { id: "3", name: "Sven Müller", role: t.aboutPage.roles.treasurer, img: "https://picsum.photos/seed/team3/400/400" },
+    { id: "4", name: "Fatima Al-Sayed", role: t.aboutPage.roles.logistics, img: "https://picsum.photos/seed/team4/400/400" },
   ]
 
   const content = aboutData || {
-    heroTitle: "Notre Engagement",
-    heroSubtitle: "Fondée en 2005, FFG-VE est née d'une vision simple : aucune souffrance ne devrait rester sans réponse.",
-    history: "Aujourd'hui, nous sommes une force de changement dans plus de 35 pays. Nous agissons sur le terrain avec les communautés locales pour garantir la pérennité de chaque projet.",
-    mission: "Mobiliser les ressources pour répondre aux urgences humanitaires et accompagner les populations vers l'autonomie.",
-    vision: "Un monde où chaque individu a accès aux droits fondamentaux : éducation, santé et environnement durable.",
-    teamIntro: "Des professionnels passionnés engagés pour la cause humanitaire.",
+    heroTitle: t.about.heroTitle,
+    heroSubtitle: t.about.heroSubtitle,
+    history: t.aboutPage.historyText,
+    mission: t.aboutPage.missionText,
+    vision: t.aboutPage.visionText,
+    teamIntro: t.aboutPage.teamIntro,
     teamMembers: defaultTeam
   };
 
@@ -59,7 +61,7 @@ export default function AboutPage() {
       <section className="bg-primary py-20 md:py-32 text-white relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10 max-w-4xl space-y-6">
           <div className="inline-block px-4 py-1 bg-white/10 rounded-full text-xs font-bold tracking-widest uppercase mb-4">
-            À propos de FFG-VE
+            {t.aboutPage.badge}
           </div>
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-headline font-bold leading-tight">{content.heroTitle}</h1>
           <p className="text-lg sm:text-xl md:text-2xl text-primary-foreground/80 leading-relaxed font-medium">
@@ -73,7 +75,7 @@ export default function AboutPage() {
       <section className="py-16 md:py-24 bg-white dark:bg-zinc-950">
         <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           <div className="lg:col-span-7 space-y-6 md:space-y-8">
-            <h2 className="text-3xl sm:text-4xl font-headline font-bold">Une Histoire de Solidarité</h2>
+            <h2 className="text-3xl sm:text-4xl font-headline font-bold">{t.about.historyTitle}</h2>
             <div className="prose dark:prose-invert max-w-none text-base sm:text-lg text-muted-foreground leading-relaxed whitespace-pre-wrap">
               {content.history}
             </div>
@@ -81,10 +83,10 @@ export default function AboutPage() {
           <div className="lg:col-span-5">
             <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500 bg-zinc-100">
               {historyImage && (
-                <Image 
-                  src={historyImage} 
-                  alt="Impact FFG-VE" 
-                  fill 
+                <Image
+                  src={historyImage}
+                  alt="Impact FFG-VE"
+                  fill
                   className="object-cover"
                 />
               )}
@@ -101,7 +103,7 @@ export default function AboutPage() {
               <div className="bg-primary/10 p-4 sm:p-5 inline-block rounded-2xl relative z-10">
                 <Target className="h-9 w-9 sm:h-10 sm:w-10 text-primary" />
               </div>
-              <h2 className="text-3xl sm:text-4xl font-headline font-bold relative z-10">Notre Mission</h2>
+              <h2 className="text-3xl sm:text-4xl font-headline font-bold relative z-10">{t.about.missionTitle}</h2>
               <p className="text-base sm:text-lg text-muted-foreground leading-relaxed relative z-10">
                 {content.mission}
               </p>
@@ -110,7 +112,7 @@ export default function AboutPage() {
               <div className="bg-secondary/10 p-4 sm:p-5 inline-block rounded-2xl relative z-10">
                 <Eye className="h-9 w-9 sm:h-10 sm:w-10 text-secondary" />
               </div>
-              <h2 className="text-3xl sm:text-4xl font-headline font-bold relative z-10">Notre Vision</h2>
+              <h2 className="text-3xl sm:text-4xl font-headline font-bold relative z-10">{t.about.visionTitle}</h2>
               <p className="text-base sm:text-lg text-muted-foreground leading-relaxed relative z-10">
                 {content.vision}
               </p>
@@ -122,7 +124,7 @@ export default function AboutPage() {
       {/* Values */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl sm:text-4xl font-headline font-bold text-center mb-10 md:mb-16">Nos Valeurs Fondamentales</h2>
+          <h2 className="text-3xl sm:text-4xl font-headline font-bold text-center mb-10 md:mb-16">{t.about.valuesTitle}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((v, i) => (
               <Card key={i} className="border-none shadow-md hover:shadow-xl transition-all hover:-translate-y-2 rounded-3xl">
@@ -143,7 +145,7 @@ export default function AboutPage() {
       <section className="py-16 md:py-24 bg-zinc-50 dark:bg-zinc-950">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-10 md:mb-16 max-w-2xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl font-headline font-bold">L'Équipe Dirigeante</h2>
+            <h2 className="text-3xl sm:text-4xl font-headline font-bold">{t.about.teamTitle}</h2>
             <p className="text-muted-foreground text-base sm:text-lg">{content.teamIntro}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
@@ -151,11 +153,11 @@ export default function AboutPage() {
               <div key={m.id} className="space-y-4 text-center group">
                 <div className="relative aspect-square rounded-[3rem] overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 bg-zinc-100">
                   {m.img && (
-                    <Image 
-                      src={m.img} 
-                      alt={m.name} 
-                      fill 
-                      className="object-cover group-hover:scale-105 transition-transform duration-500" 
+                    <Image
+                      src={m.img}
+                      alt={m.name}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   )}
                   <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">

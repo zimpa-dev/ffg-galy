@@ -21,12 +21,14 @@ import { useFirestore, useDoc } from "@/firebase";
 import { doc } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/components/language-provider";
 
 export default function NewsArticleDetailPage() {
   const { id } = useParams();
   const router = useRouter();
   const db = useFirestore();
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const articleRef = React.useMemo(() => {
     if (!db || !id) return null;
@@ -44,7 +46,7 @@ export default function NewsArticleDetailPage() {
       }).catch(console.error);
     } else {
       navigator.clipboard.writeText(window.location.href);
-      toast({ title: "Lien copié !", description: "Vous pouvez maintenant le partager." });
+      toast({ title: t.newsPage.detailLinkCopiedTitle, description: t.newsPage.detailLinkCopiedDesc });
     }
   };
 
@@ -52,7 +54,7 @@ export default function NewsArticleDetailPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
         <Loader2 className="h-10 w-10 animate-spin text-primary" />
-        <p className="text-muted-foreground animate-pulse font-medium">Chargement du récit...</p>
+        <p className="text-muted-foreground animate-pulse font-medium">{t.newsPage.detailLoading}</p>
       </div>
     );
   }
@@ -60,11 +62,11 @@ export default function NewsArticleDetailPage() {
   if (!article) {
     return (
       <div className="container mx-auto px-4 py-32 text-center space-y-6">
-        <h1 className="text-4xl font-headline font-bold">Article introuvable</h1>
-        <p className="text-muted-foreground">Ce récit a peut-être été déplacé ou archivé.</p>
+        <h1 className="text-4xl font-headline font-bold">{t.newsPage.detailNotFoundTitle}</h1>
+        <p className="text-muted-foreground">{t.newsPage.detailNotFoundText}</p>
         <Link href="/news">
           <Button variant="outline" className="rounded-full h-12 px-8">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Retour aux actualités
+            <ArrowLeft className="mr-2 h-4 w-4" /> {t.newsPage.detailBackToNews}
           </Button>
         </Link>
       </div>
@@ -87,7 +89,7 @@ export default function NewsArticleDetailPage() {
         <div className="absolute bottom-0 left-0 w-full p-6 md:p-12 lg:p-20">
           <div className="container mx-auto max-w-4xl space-y-6">
             <Link href="/news" className="inline-flex items-center text-white/70 hover:text-white transition-colors text-sm font-bold uppercase tracking-widest gap-2 group">
-              <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" /> Retour au blog
+              <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" /> {t.newsPage.detailBackToBlog}
             </Link>
             
             <div className="space-y-4">
@@ -112,7 +114,7 @@ export default function NewsArticleDetailPage() {
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4" />
-                <span>Lecture : 4 min</span>
+                <span>{t.newsPage.detailReadingTime}</span>
               </div>
             </div>
           </div>
@@ -155,31 +157,31 @@ export default function NewsArticleDetailPage() {
             <Card className="border-none shadow-lg rounded-[2rem] bg-primary text-white overflow-hidden">
               <CardContent className="p-8 space-y-6">
                 <HeartIcon className="h-10 w-10 text-white/20" />
-                <h3 className="text-2xl font-headline font-bold">Aidez-nous à agir</h3>
+                <h3 className="text-2xl font-headline font-bold">{t.newsPage.detailHelpCta}</h3>
                 <p className="text-primary-foreground/80 leading-relaxed">
-                  Votre soutien financier nous permet de continuer à témoigner et à agir sur le terrain pour les plus vulnérables.
+                  {t.newsPage.detailHelpText}
                 </p>
                 <Link href="/donate" className="block">
                   <Button className="w-full bg-white text-primary hover:bg-zinc-100 font-bold h-12 rounded-xl">
-                    Faire un don
+                    {t.newsPage.detailDonateBtn}
                   </Button>
                 </Link>
               </CardContent>
             </Card>
 
             <div className="p-8 bg-zinc-100 dark:bg-zinc-900 rounded-[2rem] border border-zinc-200 dark:border-zinc-800 space-y-6">
-              <h4 className="font-bold uppercase tracking-widest text-xs text-muted-foreground">À propos de l'auteur</h4>
+              <h4 className="font-bold uppercase tracking-widest text-xs text-muted-foreground">{t.newsPage.detailAboutAuthor}</h4>
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
                   {article.author?.[0]}
                 </div>
                 <div>
                   <p className="font-bold">{article.author}</p>
-                  <p className="text-xs text-muted-foreground">Expert Humanitaire FFG-VE</p>
+                  <p className="text-xs text-muted-foreground">{t.newsPage.detailAuthorRole}</p>
                 </div>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed italic">
-                Raconte l'impact des missions FFG-VE à travers le monde pour inspirer une solidarité plus forte.
+                {t.newsPage.detailAuthorBio}
               </p>
             </div>
           </div>

@@ -28,20 +28,22 @@ import {
 } from "@/components/ui/dialog";
 import { useFirestore, useCollection } from "@/firebase";
 import { collection, query, orderBy } from "firebase/firestore";
-
-const galleryCategories = [
-  { id: "all", label: "Toutes", icon: Filter },
-  { id: "health", label: "Santé", icon: Heart },
-  { id: "education", label: "Éducation", icon: BookOpen },
-  { id: "water", label: "Eau & Hygiène", icon: Droplets },
-  { id: "emergency", label: "Urgences", icon: Siren },
-  { id: "events", label: "Événements", icon: Sparkles },
-];
+import { useLanguage } from "@/components/language-provider";
 
 export default function GalleryPage() {
   const db = useFirestore();
+  const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = React.useState("all");
   const [searchQuery, setSearchQuery] = React.useState("");
+
+  const galleryCategories = [
+    { id: "all", label: t.gallery.filters.all, icon: Filter },
+    { id: "health", label: t.gallery.filters.health, icon: Heart },
+    { id: "education", label: t.gallery.filters.education, icon: BookOpen },
+    { id: "water", label: t.gallery.filters.water, icon: Droplets },
+    { id: "emergency", label: t.gallery.filters.emergency, icon: Siren },
+    { id: "events", label: t.gallery.filters.events, icon: Sparkles },
+  ];
 
   const galleryQuery = React.useMemo(() => {
     if (!db) return null;
@@ -64,7 +66,7 @@ export default function GalleryPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
         <Loader2 className="h-10 w-10 animate-spin text-primary" />
-        <p className="text-muted-foreground animate-pulse font-medium">Chargement de la galerie d'impact...</p>
+        <p className="text-muted-foreground animate-pulse font-medium">{t.galleryPage.loading}</p>
       </div>
     );
   }
@@ -73,9 +75,9 @@ export default function GalleryPage() {
     <div className="container mx-auto px-4 py-16 md:py-24 space-y-12 animate-in fade-in duration-700">
       {/* Header */}
       <div className="text-center space-y-6 max-w-3xl mx-auto">
-        <h1 className="text-5xl md:text-6xl font-headline font-bold text-primary">Galerie d'Impact</h1>
+        <h1 className="text-5xl md:text-6xl font-headline font-bold text-primary">{t.gallery.title}</h1>
         <p className="text-xl text-muted-foreground leading-relaxed">
-          Explorez en images nos missions terrain et nos événements. Chaque cliché est une fenêtre sur la solidarité que nous construisons ensemble.
+          {t.gallery.subtitle}
         </p>
       </div>
 
@@ -100,7 +102,7 @@ export default function GalleryPage() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <input
             type="text"
-            placeholder="Rechercher une mission..."
+            placeholder={t.galleryPage.searchPlaceholder}
             className="w-full bg-white dark:bg-zinc-800 rounded-full py-2.5 pl-12 pr-6 border-none focus:ring-2 focus:ring-primary/20 text-sm transition-all shadow-sm"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -172,13 +174,13 @@ export default function GalleryPage() {
                       </div>
                       
                       <p className="text-lg leading-relaxed text-zinc-300 font-light">
-                        {item.description || "Aucune description supplémentaire fournie pour ce moment."}
+                        {item.description || t.galleryPage.noDescription}
                       </p>
                     </div>
 
                     <div className="pt-8 border-t border-white/10">
                       <Button className="w-full bg-white text-black hover:bg-zinc-200 rounded-full h-14 font-bold text-lg shadow-lg transition-transform hover:-translate-y-1" onClick={() => (window.location.href = '/donate')}>
-                        Soutenir nos actions
+                        {t.galleryPage.supportBtn}
                       </Button>
                     </div>
                   </div>
@@ -192,8 +194,8 @@ export default function GalleryPage() {
           <div className="bg-white dark:bg-zinc-800 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
             <ImageIcon className="h-8 w-8 text-muted-foreground" />
           </div>
-          <h3 className="text-2xl font-bold mb-2">Aucun moment trouvé</h3>
-          <p className="text-muted-foreground">La galerie est en cours d'alimentation par nos équipes.</p>
+          <h3 className="text-2xl font-bold mb-2">{t.galleryPage.emptyTitle}</h3>
+          <p className="text-muted-foreground">{t.galleryPage.emptyText}</p>
         </div>
       )}
 
@@ -201,14 +203,14 @@ export default function GalleryPage() {
       <section className="bg-primary p-8 sm:p-12 md:p-20 rounded-[2rem] sm:rounded-[4rem] text-white overflow-hidden relative group shadow-2xl">
         <div className="relative z-10 text-center space-y-8">
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-headline font-bold max-w-3xl mx-auto leading-tight">
-            Chaque image est un espoir que vous avez aidé à semer.
+            {t.galleryPage.ctaTitle}
           </h2>
           <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 sm:gap-6">
             <Button size="lg" className="w-full sm:w-auto bg-white text-primary hover:bg-zinc-100 rounded-full px-8 sm:px-12 h-14 sm:h-16 font-bold text-lg sm:text-xl shadow-xl transition-all hover:scale-105" onClick={() => (window.location.href = '/donate')}>
-              Soutenir nos missions
+              {t.galleryPage.ctaSupportBtn}
             </Button>
             <Button size="lg" variant="outline" className="w-full sm:w-auto border-white text-white hover:bg-white/10 rounded-full px-8 sm:px-12 h-14 sm:h-16 font-bold text-lg sm:text-xl backdrop-blur-sm" onClick={() => (window.location.href = '/volunteer')}>
-              Devenir bénévole
+              {t.galleryPage.ctaVolunteerBtn}
             </Button>
           </div>
         </div>
