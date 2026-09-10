@@ -101,15 +101,15 @@ export default function AdminProgramsPage() {
   };
 
   return (
-    <div className="flex flex-col gap-8 p-8 max-w-7xl mx-auto">
+    <div className="flex flex-col gap-8 animate-in fade-in duration-500">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-4xl font-headline font-bold">Gestion des Programmes</h1>
-          <p className="text-muted-foreground">Ajoutez ou modifiez les actions humanitaires de FFG-VE.</p>
+          <h1 className="text-2xl md:text-3xl font-headline font-bold">Gestion des Programmes</h1>
+          <p className="text-muted-foreground text-sm">Ajoutez ou modifiez les actions humanitaires de FFG-VE.</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         {/* Form Column */}
         <Card className="lg:col-span-1 shadow-xl border-none h-fit">
           <CardHeader>
@@ -202,35 +202,37 @@ export default function AdminProgramsPage() {
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
               </div>
             ) : programs && programs.length > 0 ? (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Titre</TableHead>
-                    <TableHead className="hidden md:table-cell">Description</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {programs.map((prog) => (
-                    <TableRow key={prog.id}>
-                      <TableCell className="font-bold text-primary">{prog.title}</TableCell>
-                      <TableCell className="hidden md:table-cell max-w-xs truncate">
-                        {prog.description}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          className="text-destructive"
-                          onClick={() => handleDelete(prog.id)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </TableCell>
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Titre</TableHead>
+                      <TableHead className="hidden md:table-cell">Description</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {programs.map((prog) => (
+                      <TableRow key={prog.id}>
+                        <TableCell className="font-bold text-primary">{prog.title}</TableCell>
+                        <TableCell className="hidden md:table-cell max-w-xs truncate">
+                          {prog.description}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="text-destructive"
+                            onClick={() => handleDelete(prog.id)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             ) : (
               <p className="text-center p-8 text-muted-foreground italic">Aucun programme enregistré pour le moment.</p>
             )}

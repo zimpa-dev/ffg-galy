@@ -144,12 +144,12 @@ export default function GalleryPage() {
                   </div>
                 </div>
               </DialogTrigger>
-              <DialogContent className="max-w-4xl rounded-[3rem] p-0 overflow-hidden border-none bg-zinc-950 text-white shadow-2xl">
+              <DialogContent className="max-w-4xl rounded-[1.5rem] sm:rounded-[3rem] p-0 overflow-y-auto border-none bg-zinc-950 text-white shadow-2xl">
                 <div className="grid grid-cols-1 md:grid-cols-2">
-                  <div className="relative aspect-square md:aspect-auto">
+                  <div className="relative aspect-square md:aspect-auto min-h-[200px]">
                     <Image src={item.image} alt={item.title} fill className="object-cover" />
                   </div>
-                  <div className="p-8 md:p-12 space-y-8 flex flex-col justify-center">
+                  <div className="p-6 sm:p-8 md:p-12 space-y-6 sm:space-y-8 flex flex-col justify-center">
                     <div className="space-y-4">
                       <Badge className="bg-primary/30 text-primary-foreground border-none text-xs font-bold uppercase px-3 py-1 rounded-full">
                         {galleryCategories.find(c => c.id === item.category)?.label}
@@ -198,16 +198,16 @@ export default function GalleryPage() {
       )}
 
       {/* Call to Action */}
-      <section className="bg-primary p-12 md:p-20 rounded-[4rem] text-white overflow-hidden relative group shadow-2xl">
+      <section className="bg-primary p-8 sm:p-12 md:p-20 rounded-[2rem] sm:rounded-[4rem] text-white overflow-hidden relative group shadow-2xl">
         <div className="relative z-10 text-center space-y-8">
-          <h2 className="text-3xl md:text-5xl font-headline font-bold max-w-3xl mx-auto leading-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-headline font-bold max-w-3xl mx-auto leading-tight">
             Chaque image est un espoir que vous avez aidé à semer.
           </h2>
-          <div className="flex flex-wrap justify-center gap-6">
-            <Button size="lg" className="bg-white text-primary hover:bg-zinc-100 rounded-full px-12 h-16 font-bold text-xl shadow-xl transition-all hover:scale-105" onClick={() => (window.location.href = '/donate')}>
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 sm:gap-6">
+            <Button size="lg" className="w-full sm:w-auto bg-white text-primary hover:bg-zinc-100 rounded-full px-8 sm:px-12 h-14 sm:h-16 font-bold text-lg sm:text-xl shadow-xl transition-all hover:scale-105" onClick={() => (window.location.href = '/donate')}>
               Soutenir nos missions
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 rounded-full px-12 h-16 font-bold text-xl backdrop-blur-sm" onClick={() => (window.location.href = '/volunteer')}>
+            <Button size="lg" variant="outline" className="w-full sm:w-auto border-white text-white hover:bg-white/10 rounded-full px-8 sm:px-12 h-14 sm:h-16 font-bold text-lg sm:text-xl backdrop-blur-sm" onClick={() => (window.location.href = '/volunteer')}>
               Devenir bénévole
             </Button>
           </div>

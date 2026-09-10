@@ -56,13 +56,13 @@ export default function AboutPage() {
   return (
     <div className="flex flex-col gap-0 animate-in fade-in duration-700">
       {/* Hero Section */}
-      <section className="bg-primary py-24 md:py-32 text-white relative overflow-hidden">
+      <section className="bg-primary py-20 md:py-32 text-white relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10 max-w-4xl space-y-6">
           <div className="inline-block px-4 py-1 bg-white/10 rounded-full text-xs font-bold tracking-widest uppercase mb-4">
             À propos de FFG-VE
           </div>
-          <h1 className="text-5xl md:text-7xl font-headline font-bold leading-tight">{content.heroTitle}</h1>
-          <p className="text-xl md:text-2xl text-primary-foreground/80 leading-relaxed font-medium">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-headline font-bold leading-tight">{content.heroTitle}</h1>
+          <p className="text-lg sm:text-xl md:text-2xl text-primary-foreground/80 leading-relaxed font-medium">
             {content.heroSubtitle}
           </p>
         </div>
@@ -70,11 +70,11 @@ export default function AboutPage() {
       </section>
 
       {/* Narrative Section */}
-      <section className="py-24 bg-white dark:bg-zinc-950">
-        <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-          <div className="lg:col-span-7 space-y-8">
-            <h2 className="text-4xl font-headline font-bold">Une Histoire de Solidarité</h2>
-            <div className="prose dark:prose-invert max-w-none text-lg text-muted-foreground leading-relaxed whitespace-pre-wrap">
+      <section className="py-16 md:py-24 bg-white dark:bg-zinc-950">
+        <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+          <div className="lg:col-span-7 space-y-6 md:space-y-8">
+            <h2 className="text-3xl sm:text-4xl font-headline font-bold">Une Histoire de Solidarité</h2>
+            <div className="prose dark:prose-invert max-w-none text-base sm:text-lg text-muted-foreground leading-relaxed whitespace-pre-wrap">
               {content.history}
             </div>
           </div>
@@ -94,24 +94,24 @@ export default function AboutPage() {
       </section>
 
       {/* Mission & Vision Grid */}
-      <section className="py-24 bg-zinc-50 dark:bg-zinc-900">
+      <section className="py-16 md:py-24 bg-zinc-50 dark:bg-zinc-900">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div className="bg-white dark:bg-zinc-800 p-12 rounded-[3rem] shadow-xl space-y-8 relative overflow-hidden group">
-              <div className="bg-primary/10 p-5 inline-block rounded-2xl relative z-10">
-                <Target className="h-10 w-10 text-primary" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            <div className="bg-white dark:bg-zinc-800 p-8 sm:p-12 rounded-[2rem] sm:rounded-[3rem] shadow-xl space-y-6 md:space-y-8 relative overflow-hidden group">
+              <div className="bg-primary/10 p-4 sm:p-5 inline-block rounded-2xl relative z-10">
+                <Target className="h-9 w-9 sm:h-10 sm:w-10 text-primary" />
               </div>
-              <h2 className="text-4xl font-headline font-bold relative z-10">Notre Mission</h2>
-              <p className="text-lg text-muted-foreground leading-relaxed relative z-10">
+              <h2 className="text-3xl sm:text-4xl font-headline font-bold relative z-10">Notre Mission</h2>
+              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed relative z-10">
                 {content.mission}
               </p>
             </div>
-            <div className="bg-white dark:bg-zinc-800 p-12 rounded-[3rem] shadow-xl space-y-8 relative overflow-hidden group">
-              <div className="bg-secondary/10 p-5 inline-block rounded-2xl relative z-10">
-                <Eye className="h-10 w-10 text-secondary" />
+            <div className="bg-white dark:bg-zinc-800 p-8 sm:p-12 rounded-[2rem] sm:rounded-[3rem] shadow-xl space-y-6 md:space-y-8 relative overflow-hidden group">
+              <div className="bg-secondary/10 p-4 sm:p-5 inline-block rounded-2xl relative z-10">
+                <Eye className="h-9 w-9 sm:h-10 sm:w-10 text-secondary" />
               </div>
-              <h2 className="text-4xl font-headline font-bold relative z-10">Notre Vision</h2>
-              <p className="text-lg text-muted-foreground leading-relaxed relative z-10">
+              <h2 className="text-3xl sm:text-4xl font-headline font-bold relative z-10">Notre Vision</h2>
+              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed relative z-10">
                 {content.vision}
               </p>
             </div>
@@ -120,9 +120,9 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="py-24">
+      <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-headline font-bold text-center mb-16">Nos Valeurs Fondamentales</h2>
+          <h2 className="text-3xl sm:text-4xl font-headline font-bold text-center mb-10 md:mb-16">Nos Valeurs Fondamentales</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((v, i) => (
               <Card key={i} className="border-none shadow-md hover:shadow-xl transition-all hover:-translate-y-2 rounded-3xl">
@@ -140,13 +140,13 @@ export default function AboutPage() {
       </section>
 
       {/* Team */}
-      <section className="py-24 bg-zinc-50 dark:bg-zinc-950">
+      <section className="py-16 md:py-24 bg-zinc-50 dark:bg-zinc-950">
         <div className="container mx-auto px-4">
-          <div className="text-center space-y-4 mb-16 max-w-2xl mx-auto">
-            <h2 className="text-4xl font-headline font-bold">L'Équipe Dirigeante</h2>
-            <p className="text-muted-foreground text-lg">{content.teamIntro}</p>
+          <div className="text-center space-y-4 mb-10 md:mb-16 max-w-2xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-headline font-bold">L'Équipe Dirigeante</h2>
+            <p className="text-muted-foreground text-base sm:text-lg">{content.teamIntro}</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
             {teamMembers.map((m: any) => (
               <div key={m.id} className="space-y-4 text-center group">
                 <div className="relative aspect-square rounded-[3rem] overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 bg-zinc-100">

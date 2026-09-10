@@ -35,16 +35,16 @@ export default function VolunteerPage() {
   ]
 
   return (
-    <div className="py-20">
+    <div className="py-16 md:py-20">
       <div className="container mx-auto px-4 max-w-6xl">
-        <div className="text-center space-y-6 mb-16">
-          <h1 className="text-5xl font-headline font-bold text-primary">Devenez Bénévole</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+        <div className="text-center space-y-6 mb-12 md:mb-16">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-headline font-bold text-primary">Devenez Bénévole</h1>
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Votre temps est précieux. Mettez vos compétences au service d'une cause noble et rejoignez l'aventure FFG-VE.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-12">
           {/* Why Volunteer */}
           <div className="lg:col-span-1 space-y-8">
             <h2 className="text-2xl font-headline font-bold mb-6">Pourquoi nous rejoindre ?</h2>
@@ -66,12 +66,12 @@ export default function VolunteerPage() {
           </div>
 
           {/* Form */}
-          <Card className="lg:col-span-2 shadow-xl border-none rounded-3xl">
-            <CardHeader className="p-8 md:p-12 pb-0">
+          <Card className="lg:col-span-2 shadow-xl border-none rounded-2xl sm:rounded-3xl">
+            <CardHeader className="p-6 sm:p-8 md:p-12 pb-0">
               <CardTitle className="text-2xl font-headline">Formulaire de Candidature</CardTitle>
               <CardDescription>Remplissez les informations ci-dessous pour postuler.</CardDescription>
             </CardHeader>
-            <CardContent className="p-8 md:p-12">
+            <CardContent className="p-6 sm:p-8 md:p-12">
               <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">

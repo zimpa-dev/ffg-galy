@@ -27,19 +27,19 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="py-24">
-      <div className="container mx-auto px-4 max-w-6xl space-y-20">
+    <div className="py-16 md:py-24">
+      <div className="container mx-auto px-4 max-w-6xl space-y-14 md:space-y-20">
         <div className="text-center space-y-6">
-          <h1 className="text-5xl font-headline font-bold text-primary">Contactez-nous</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-headline font-bold text-primary">Contactez-nous</h1>
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Une question sur nos projets ? Envie de nous soutenir ou de collaborer ? Notre équipe est à votre écoute.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           {/* Contact Info */}
-          <div className="space-y-10">
-            <h2 className="text-3xl font-headline font-bold">Nos Coordonnées</h2>
+          <div className="space-y-8 md:space-y-10">
+            <h2 className="text-2xl sm:text-3xl font-headline font-bold">Nos Coordonnées</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <div className="space-y-3">
                 <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center">
@@ -81,8 +81,8 @@ export default function ContactPage() {
           </div>
 
           {/* Form */}
-          <Card className="shadow-2xl border-none rounded-[2.5rem]">
-            <CardContent className="p-8 md:p-12 space-y-8">
+          <Card className="shadow-2xl border-none rounded-[1.5rem] sm:rounded-[2.5rem]">
+            <CardContent className="p-6 sm:p-8 md:p-12 space-y-8">
               <h2 className="text-2xl font-headline font-bold">Envoyez-nous un message</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

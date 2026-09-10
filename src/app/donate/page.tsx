@@ -88,12 +88,12 @@ export default function DonatePage() {
 
   return (
     <div className="bg-zinc-50 dark:bg-zinc-950 py-12 md:py-24">
-      <div className="container mx-auto px-4 max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+      <div className="container mx-auto px-4 max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
         {/* Information Side */}
         <div className="space-y-8">
           <div className="space-y-4">
-            <h1 className="text-5xl font-headline font-bold text-primary">Chaque geste compte.</h1>
-            <p className="text-xl text-muted-foreground leading-relaxed">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-headline font-bold text-primary">Chaque geste compte.</h1>
+            <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
               Que ce soit un soutien financier ou un don matériel, votre contribution est le moteur de notre action sur le terrain.
             </p>
           </div>
@@ -125,22 +125,22 @@ export default function DonatePage() {
         </div>
 
         {/* Form Side */}
-        <Card className="shadow-2xl border-none rounded-[2.5rem] overflow-hidden bg-white dark:bg-zinc-900">
+        <Card className="shadow-2xl border-none rounded-[1.5rem] sm:rounded-[2.5rem] overflow-hidden bg-white dark:bg-zinc-900">
           <Tabs defaultValue="once" onValueChange={setFrequency} className="w-full">
-            <TabsList className="grid grid-cols-3 h-16 bg-zinc-100 dark:bg-zinc-800 p-1.5 rounded-none">
-              <TabsTrigger value="once" className="text-sm font-bold data-[state=active]:bg-white data-[state=active]:text-primary rounded-2xl transition-all">
+            <TabsList className="grid grid-cols-3 h-14 sm:h-16 bg-zinc-100 dark:bg-zinc-800 p-1.5 rounded-none">
+              <TabsTrigger value="once" className="text-xs sm:text-sm font-bold data-[state=active]:bg-white data-[state=active]:text-primary rounded-2xl transition-all">
                 Unique
               </TabsTrigger>
-              <TabsTrigger value="monthly" className="text-sm font-bold data-[state=active]:bg-white data-[state=active]:text-primary rounded-2xl transition-all">
+              <TabsTrigger value="monthly" className="text-xs sm:text-sm font-bold data-[state=active]:bg-white data-[state=active]:text-primary rounded-2xl transition-all">
                 Mensuel
               </TabsTrigger>
-              <TabsTrigger value="nature" className="text-sm font-bold data-[state=active]:bg-white data-[state=active]:text-primary rounded-2xl transition-all">
+              <TabsTrigger value="nature" className="text-xs sm:text-sm font-bold data-[state=active]:bg-white data-[state=active]:text-primary rounded-2xl transition-all">
                 En Nature
               </TabsTrigger>
             </TabsList>
 
             {(frequency === "once" || frequency === "monthly") && (
-              <TabsContent value={frequency} className="p-8 md:p-12 space-y-10 mt-0">
+              <TabsContent value={frequency} className="p-6 sm:p-8 md:p-12 space-y-8 sm:space-y-10 mt-0">
                 <form onSubmit={handleMonetaryDonation} className="space-y-8">
                   <div className="space-y-6">
                     <Label className="text-lg font-bold">Choisissez un montant</Label>
@@ -185,29 +185,29 @@ export default function DonatePage() {
 
                   <div className="space-y-6">
                     <Label className="text-lg font-bold">Mode de paiement</Label>
-                    <RadioGroup defaultValue="card" className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <Label className="flex flex-col items-center gap-3 p-4 border rounded-2xl cursor-pointer hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                    <RadioGroup defaultValue="card" className="grid grid-cols-3 gap-3 sm:gap-4">
+                      <Label className="flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-4 border rounded-2xl cursor-pointer hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5">
                         <RadioGroupItem value="card" className="sr-only" />
-                        <CreditCard className="h-8 w-8 text-primary" />
-                        <span className="font-bold text-xs uppercase tracking-wider">Carte</span>
+                        <CreditCard className="h-7 w-7 sm:h-8 sm:w-8 text-primary" />
+                        <span className="font-bold text-[10px] sm:text-xs uppercase tracking-wider">Carte</span>
                       </Label>
-                      <Label className="flex flex-col items-center gap-3 p-4 border rounded-2xl cursor-pointer hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                      <Label className="flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-4 border rounded-2xl cursor-pointer hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5">
                         <RadioGroupItem value="paypal" className="sr-only" />
-                        <Wallet className="h-8 w-8 text-[#003087]" />
-                        <span className="font-bold text-xs uppercase tracking-wider">PayPal</span>
+                        <Wallet className="h-7 w-7 sm:h-8 sm:w-8 text-[#003087]" />
+                        <span className="font-bold text-[10px] sm:text-xs uppercase tracking-wider">PayPal</span>
                       </Label>
-                      <Label className="flex flex-col items-center gap-3 p-4 border rounded-2xl cursor-pointer hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                      <Label className="flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-4 border rounded-2xl cursor-pointer hover:border-primary transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5">
                         <RadioGroupItem value="mobile" className="sr-only" />
-                        <Smartphone className="h-8 w-8 text-secondary" />
-                        <span className="font-bold text-xs uppercase tracking-wider">Mobile</span>
+                        <Smartphone className="h-7 w-7 sm:h-8 sm:w-8 text-secondary" />
+                        <span className="font-bold text-[10px] sm:text-xs uppercase tracking-wider">Mobile</span>
                       </Label>
                     </RadioGroup>
                   </div>
 
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-primary hover:bg-primary/90 text-white text-xl font-bold h-16 rounded-2xl shadow-xl transition-all hover:-translate-y-1"
+                    className="w-full bg-primary hover:bg-primary/90 text-white text-base sm:text-xl font-bold h-16 rounded-2xl shadow-xl transition-all hover:-translate-y-1 whitespace-normal text-center leading-tight"
                   >
                     {isSubmitting ? <Loader2 className="h-6 w-6 animate-spin" /> : `Valider mon don de ${amount || customAmount || "0"} €`}
                   </Button>
@@ -215,7 +215,7 @@ export default function DonatePage() {
               </TabsContent>
             )}
 
-            <TabsContent value="nature" className="p-8 md:p-12 space-y-10 mt-0 animate-in fade-in slide-in-from-right-4">
+            <TabsContent value="nature" className="p-6 sm:p-8 md:p-12 space-y-8 sm:space-y-10 mt-0 animate-in fade-in slide-in-from-right-4">
               <form onSubmit={handleInKindDonation} className="space-y-8">
                 <div className="space-y-6">
                   <div className="flex items-center gap-3 text-secondary">

@@ -76,16 +76,16 @@ export default function NewsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-20 space-y-16">
-      <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+    <div className="container mx-auto px-4 py-16 md:py-20 space-y-12 md:space-y-16">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-6 md:gap-8">
         <div className="space-y-4 max-w-2xl text-center md:text-left">
-          <h1 className="text-5xl font-headline font-bold text-primary">Aktuelles & Berichte</h1>
-          <p className="text-xl text-muted-foreground">Verfolgen Sie unsere tägliche Arbeit und entdecken Sie die Gesichter der Solidarität.</p>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-headline font-bold text-primary">Aktuelles &amp; Berichte</h1>
+          <p className="text-lg sm:text-xl text-muted-foreground">Verfolgen Sie unsere tägliche Arbeit und entdecken Sie die Gesichter der Solidarität.</p>
         </div>
 
         <Dialog>
           <DialogTrigger asChild>
-            <Button className="bg-secondary text-white font-bold h-14 px-8 rounded-full shadow-lg group">
+            <Button className="w-full sm:w-auto bg-secondary text-white font-bold h-14 px-8 rounded-full shadow-lg group">
               <Sparkles className="mr-2 h-5 w-5 group-hover:animate-pulse" />
               KI-Schreibassistent
             </Button>
@@ -180,8 +180,8 @@ export default function NewsPage() {
         </div>
       )}
 
-      <div className="bg-zinc-100 dark:bg-zinc-900 rounded-[2rem] p-12 text-center space-y-8">
-        <h2 className="text-3xl font-headline font-bold">Abonnieren Sie unser Journal</h2>
+      <div className="bg-zinc-100 dark:bg-zinc-900 rounded-[1.5rem] sm:rounded-[2rem] p-6 sm:p-12 text-center space-y-6 sm:space-y-8">
+        <h2 className="text-2xl sm:text-3xl font-headline font-bold">Abonnieren Sie unser Journal</h2>
         <p className="text-muted-foreground max-w-xl mx-auto">Erhalten Sie jeden Monat Berichte von den Menschen, denen wir direkt in Ihr Postfach helfen.</p>
         <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
           <Input placeholder="Ihre E-Mail-Adresse" className="h-14 rounded-full px-8" />

@@ -16,6 +16,7 @@ import {
   Bookmark
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { useFirestore, useDoc } from "@/firebase";
 import { doc } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
@@ -120,9 +121,9 @@ export default function NewsArticleDetailPage() {
 
       {/* Content Section */}
       <div className="container mx-auto px-4 -mt-10 relative z-10">
-        <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Main Text */}
-          <div className="lg:col-span-8 bg-white dark:bg-zinc-900 rounded-[2.5rem] p-8 md:p-12 shadow-xl">
+          <div className="lg:col-span-8 bg-white dark:bg-zinc-900 rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-8 md:p-12 shadow-xl">
             <div className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-headline prose-headings:font-bold prose-p:leading-relaxed prose-p:text-zinc-600 dark:prose-p:text-zinc-300">
               <p className="text-xl font-medium text-primary leading-relaxed italic border-l-4 border-primary pl-6 mb-10">
                 {article.excerpt}

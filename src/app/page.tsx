@@ -104,12 +104,12 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {stats.map((stat, idx) => (
-              <div key={idx} className="flex flex-col items-center text-center p-10 bg-background border rounded-[3rem] shadow-sm hover:shadow-2xl transition-all group hover:-translate-y-2">
-                <div className="w-20 h-20 bg-primary/10 rounded-[2rem] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <stat.icon className="h-10 w-10 text-primary" />
+              <div key={idx} className="flex flex-col items-center text-center p-6 sm:p-10 bg-background border rounded-[2rem] sm:rounded-[3rem] shadow-sm hover:shadow-2xl transition-all group hover:-translate-y-2">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-primary/10 rounded-2xl sm:rounded-[2rem] flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
+                  <stat.icon className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
                 </div>
                 <div className="text-4xl md:text-6xl font-headline font-bold text-primary mb-2 tracking-tighter">{stat.value}</div>
-                <div className="text-sm md:text-lg text-muted-foreground font-bold uppercase tracking-[0.2em]">{stat.label}</div>
+                <div className="text-xs sm:text-sm md:text-lg text-muted-foreground font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em]">{stat.label}</div>
               </div>
             ))}
           </div>

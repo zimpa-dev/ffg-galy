@@ -43,10 +43,10 @@ export default function ProgramsPage() {
   const { data: dbPrograms, loading } = useCollection(programsQuery);
 
   return (
-    <div className="py-20 space-y-24">
+    <div className="py-16 md:py-20 space-y-16 md:space-y-24">
       <div className="container mx-auto px-4 text-center max-w-3xl space-y-6">
-        <h1 className="text-5xl font-headline font-bold text-primary">Nos Programmes</h1>
-        <p className="text-xl text-muted-foreground leading-relaxed">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-headline font-bold text-primary">Nos Programmes</h1>
+        <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
           Nous intervenons à travers des programmes structurés pour répondre aux besoins fondamentaux tout en préparant un avenir autonome pour les populations.
         </p>
       </div>
@@ -57,7 +57,7 @@ export default function ProgramsPage() {
             <Loader2 className="h-12 w-12 animate-spin text-primary" />
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
             {dbPrograms && dbPrograms.map((prog) => {
               const IconComponent = iconMap[prog.icon] || HeartHandshake;
               const colorClasses = prog.color || "bg-primary/10 text-primary";
@@ -97,23 +97,23 @@ export default function ProgramsPage() {
         )}
       </div>
 
-      <section className="bg-primary text-white py-20 overflow-hidden">
-        <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-12">
-          <div className="space-y-6 max-w-xl">
-            <h2 className="text-4xl font-headline font-bold">Vous souhaitez en faire plus ?</h2>
-            <p className="text-xl text-primary-foreground/80 leading-relaxed">
+      <section className="bg-primary text-white py-16 md:py-20 overflow-hidden">
+        <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-10 md:gap-12">
+          <div className="space-y-6 max-w-xl text-center md:text-left">
+            <h2 className="text-3xl sm:text-4xl font-headline font-bold">Vous souhaitez en faire plus ?</h2>
+            <p className="text-lg sm:text-xl text-primary-foreground/80 leading-relaxed">
               Nous recherchons constamment des partenaires et des experts pour renforcer l'impact de nos programmes.
             </p>
-            <div className="flex gap-4">
-              <Link href="/volunteer">
-                <Button className="bg-secondary text-white font-bold h-12 px-8">Devenir Partenaire</Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              <Link href="/volunteer" className="w-full sm:w-auto">
+                <Button className="w-full bg-secondary text-white font-bold h-12 px-8">Devenir Partenaire</Button>
               </Link>
-              <Link href="/contact">
-                <Button variant="outline" className="border-white text-white hover:bg-white/10 h-12 px-8 font-bold">Nous Contacter</Button>
+              <Link href="/contact" className="w-full sm:w-auto">
+                <Button variant="outline" className="w-full border-white text-white hover:bg-white/10 h-12 px-8 font-bold">Nous Contacter</Button>
               </Link>
             </div>
           </div>
-          <div className="relative w-full max-w-md h-80 rounded-3xl overflow-hidden shadow-2xl rotate-2">
+          <div className="relative w-full max-w-md h-64 sm:h-80 rounded-3xl overflow-hidden shadow-2xl rotate-2">
             <Image 
               src={PlaceHolderImages.find(i => i.id === "project-gallery-1")?.imageUrl || "https://picsum.photos/seed/ngo/600/400"} 
               alt="Community Work" 

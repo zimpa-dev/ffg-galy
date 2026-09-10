@@ -149,7 +149,7 @@ export function Navbar() {
           </div>
 
           <Link href="/donate">
-            <Button className="hidden sm:flex font-bold shadow-xl shadow-secondary/20 bg-secondary hover:bg-secondary/90 text-white rounded-full px-8 h-12 transition-all hover:scale-105 active:scale-95">
+            <Button className="hidden sm:flex font-bold shadow-xl shadow-secondary/20 bg-secondary hover:bg-secondary/90 text-white rounded-full px-5 lg:px-8 h-12 transition-all hover:scale-105 active:scale-95">
               <Heart className="mr-2 h-4 w-4 fill-current" />
               {t.nav.donate}
             </Button>
@@ -191,6 +191,27 @@ export function Navbar() {
                   {t.nav.donate}
                 </Button>
               </Link>
+              <div className="flex gap-4">
+                <Button
+                  variant="outline"
+                  className="flex-1 h-12 rounded-2xl gap-2"
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                >
+                  <Sun className="h-4 w-4 dark:hidden text-amber-500" />
+                  <Moon className="h-4 w-4 hidden dark:block text-blue-500" />
+                  <span className="font-semibold">{theme === "dark" ? "Light" : "Dark"}</span>
+                </Button>
+                <Link
+                  href={user ? "/admin" : "/login"}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex-1"
+                >
+                  <Button variant="outline" className="w-full h-12 rounded-2xl gap-2">
+                    {user ? <Lock className="h-4 w-4" /> : <User className="h-4 w-4" />}
+                    <span className="font-semibold">{user ? t.nav.admin : t.nav.login}</span>
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
