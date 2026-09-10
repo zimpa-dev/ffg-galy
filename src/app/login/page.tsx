@@ -35,11 +35,20 @@ export default function LoginPage() {
     setError(null);
     setIsLoggingIn(true);
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, email.trim(), password);
       router.push('/admin');
-    } catch (err) {
-      console.error("Login failed", err);
-      setError(t.auth.errorInvalid);
+    } catch (err: any) {
+      const code = err?.code ?? "unknown";
+      console.error("Login failed", code, err);
+      if (code === "auth/operation-not-allowed") {
+        setError("Le fournisseur Email/Mot de passe n'est pas activé dans Firebase (Authentication → Sign-in method).");
+      } else if (code === "auth/invalid-email") {
+        setError("Adresse email invalide.");
+      } else if (code === "auth/too-many-requests") {
+        setError("Trop de tentatives. Réessayez plus tard ou réinitialisez le mot de passe.");
+      } else {
+        setError(`${t.auth.errorInvalid} (${code})`);
+      }
     } finally {
       setIsLoggingIn(false);
     }

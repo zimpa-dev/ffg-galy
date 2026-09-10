@@ -10,11 +10,25 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent } from "@/components/ui/card"
 import { useToast } from "@/hooks/use-toast"
 import { useLanguage } from "@/components/language-provider"
+import { useFirestore, useDoc } from "@/firebase"
+import { doc } from "firebase/firestore"
 
 export default function ContactPage() {
   const { toast } = useToast()
   const { t } = useLanguage()
+  const db = useFirestore()
   const [isSubmitting, setIsSubmitting] = React.useState(false)
+
+  const settingsRef = React.useMemo(() => {
+    if (!db) return null
+    return doc(db, "site_settings", "general")
+  }, [db])
+
+  const { data: settings } = useDoc(settingsRef)
+
+  const contactEmail = settings?.contactEmail || t.contactPage.emailValue
+  const contactPhone = settings?.contactPhone || t.contactPage.phoneValue
+  const contactAddress = settings?.contactAddress || t.contactPage.addressValue
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -48,21 +62,21 @@ export default function ContactPage() {
                   <MapPin className="text-primary h-6 w-6" />
                 </div>
                 <h3 className="font-bold">{t.contactPage.addressLabel}</h3>
-                <p className="text-sm text-muted-foreground">{t.contactPage.addressValue}</p>
+                <p className="text-sm text-muted-foreground">{contactAddress}</p>
               </div>
               <div className="space-y-3">
                 <div className="w-12 h-12 bg-secondary/10 rounded-2xl flex items-center justify-center">
                   <Phone className="text-secondary h-6 w-6" />
                 </div>
                 <h3 className="font-bold">{t.contactPage.phoneLabel}</h3>
-                <p className="text-sm text-muted-foreground">{t.contactPage.phoneValue}</p>
+                <p className="text-sm text-muted-foreground">{contactPhone}</p>
               </div>
               <div className="space-y-3">
                 <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center">
                   <Mail className="text-primary h-6 w-6" />
                 </div>
                 <h3 className="font-bold">{t.contactPage.emailLabel}</h3>
-                <p className="text-sm text-muted-foreground">{t.contactPage.emailValue}</p>
+                <p className="text-sm text-muted-foreground">{contactEmail}</p>
               </div>
               <div className="space-y-3">
                 <div className="w-12 h-12 bg-secondary/10 rounded-2xl flex items-center justify-center">
