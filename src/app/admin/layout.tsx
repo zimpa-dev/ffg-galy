@@ -17,14 +17,41 @@ import {
   Image as ImageIcon
 } from "lucide-react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
+import { useAuth, useUser } from "@/firebase"
+import { signOut } from "firebase/auth"
+import { Loader2 } from "lucide-react"
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
   const pathname = usePathname()
+  const router = useRouter()
+  const auth = useAuth()
+  const { user, loading } = useUser()
+
+  React.useEffect(() => {
+    if (!loading && !user) {
+      router.replace("/login")
+    }
+  }, [loading, user, router])
+
+  const handleLogout = async () => {
+    if (auth) {
+      await signOut(auth)
+    }
+    router.replace("/login")
+  }
+
+  if (loading || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+      </div>
+    )
+  }
 
   const sidebarLinks = [
     { href: "/admin", icon: LayoutDashboard, label: "Tableau de bord" },
@@ -79,7 +106,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <p className="text-xs text-muted-foreground truncate">admin@ffg-ve.org</p>
           </div>
         </div>
-        <button className="flex items-center w-full px-3 py-2 text-sm font-medium text-destructive transition-colors rounded-xl hover:bg-destructive/5 gap-3">
+        <button
+          onClick={handleLogout}
+          className="flex items-center w-full px-3 py-2 text-sm font-medium text-destructive transition-colors rounded-xl hover:bg-destructive/5 gap-3"
+        >
           <LogOut className="h-4 w-4" /> Déconnexion
         </button>
       </div>

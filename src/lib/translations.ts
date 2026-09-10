@@ -73,7 +73,17 @@ export const translations = {
       loginTitle: "Admin-Bereich",
       loginSubtitle: "Melden Sie sich an, um die Website zu verwalten.",
       googleBtn: "Mit Google anmelden",
-      backHome: "Zurück zur Startseite"
+      backHome: "Zurück zur Startseite",
+      emailLabel: "E-Mail",
+      emailPlaceholder: "admin@ffg-ve.org",
+      passwordLabel: "Passwort",
+      passwordPlaceholder: "Ihr Passwort",
+      signInBtn: "Anmelden",
+      orDivider: "oder",
+      errorInvalid: "Falsche E-Mail oder falsches Passwort.",
+      restricted: "Der Zugang zu diesem Bereich ist autorisierten Administratoren von FFG-VE vorbehalten.",
+      logout: "Abmelden",
+      checkingAccess: "Zugang wird geprüft …"
     },
     aboutPage: {
       badge: "Über FFG-VE",
@@ -350,7 +360,17 @@ export const translations = {
       loginTitle: "Admin Area",
       loginSubtitle: "Sign in to manage the website.",
       googleBtn: "Sign in with Google",
-      backHome: "Back to Home"
+      backHome: "Back to Home",
+      emailLabel: "Email",
+      emailPlaceholder: "admin@ffg-ve.org",
+      passwordLabel: "Password",
+      passwordPlaceholder: "Your password",
+      signInBtn: "Sign in",
+      orDivider: "or",
+      errorInvalid: "Incorrect email or password.",
+      restricted: "Access to this section is reserved for authorized FFG-VE administrators.",
+      logout: "Logout",
+      checkingAccess: "Checking access …"
     },
     aboutPage: {
       badge: "About FFG-VE",
@@ -627,7 +647,17 @@ export const translations = {
       loginTitle: "Espace Admin",
       loginSubtitle: "Connectez-vous pour gérer le site.",
       googleBtn: "Se connecter avec Google",
-      backHome: "Retour à l'accueil"
+      backHome: "Retour à l'accueil",
+      emailLabel: "Email",
+      emailPlaceholder: "admin@ffg-ve.org",
+      passwordLabel: "Mot de passe",
+      passwordPlaceholder: "Votre mot de passe",
+      signInBtn: "Se connecter",
+      orDivider: "ou",
+      errorInvalid: "Email ou mot de passe incorrect.",
+      restricted: "L'accès à cette section est réservé aux administrateurs autorisés de FFG-VE.",
+      logout: "Déconnexion",
+      checkingAccess: "Vérification de l'accès…"
     },
     aboutPage: {
       badge: "À propos de FFG-VE",

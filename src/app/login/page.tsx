@@ -3,10 +3,12 @@
 
 import * as React from "react";
 import { useAuth, useUser } from "@/firebase";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { ShieldCheck, ArrowLeft, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useLanguage } from "@/components/language-provider";
 import Link from "next/link";
@@ -17,6 +19,9 @@ export default function LoginPage() {
   const router = useRouter();
   const { t } = useLanguage();
   const [isLoggingIn, setIsLoggingIn] = React.useState(false);
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     if (user) {
@@ -24,15 +29,33 @@ export default function LoginPage() {
     }
   }, [user, router]);
 
+  const handleEmailLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!auth) return;
+    setError(null);
+    setIsLoggingIn(true);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      router.push('/admin');
+    } catch (err) {
+      console.error("Login failed", err);
+      setError(t.auth.errorInvalid);
+    } finally {
+      setIsLoggingIn(false);
+    }
+  };
+
   const handleGoogleLogin = async () => {
     if (!auth) return;
+    setError(null);
     setIsLoggingIn(true);
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
       router.push('/admin');
-    } catch (error) {
-      console.error("Login failed", error);
+    } catch (err) {
+      console.error("Login failed", err);
+      setError(t.auth.errorInvalid);
     } finally {
       setIsLoggingIn(false);
     }
@@ -51,7 +74,7 @@ export default function LoginPage() {
       <Link href="/" className="mb-8 flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors font-medium">
         <ArrowLeft className="h-4 w-4" /> {t.auth.backHome}
       </Link>
-      
+
       <Card className="w-full max-w-md border-none shadow-2xl rounded-[2.5rem] overflow-hidden">
         <div className="bg-primary p-8 text-white text-center space-y-2">
           <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
@@ -61,8 +84,53 @@ export default function LoginPage() {
           <CardDescription className="text-primary-foreground/80">{t.auth.loginSubtitle}</CardDescription>
         </div>
         <CardContent className="p-8 md:p-12 space-y-6">
-          <Button 
-            onClick={handleGoogleLogin} 
+          <form onSubmit={handleEmailLogin} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">{t.auth.emailLabel}</Label>
+              <Input
+                id="email"
+                type="email"
+                required
+                autoComplete="email"
+                placeholder={t.auth.emailPlaceholder}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="h-12 rounded-2xl"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">{t.auth.passwordLabel}</Label>
+              <Input
+                id="password"
+                type="password"
+                required
+                autoComplete="current-password"
+                placeholder={t.auth.passwordPlaceholder}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="h-12 rounded-2xl"
+              />
+            </div>
+            {error && (
+              <p className="text-sm text-destructive font-medium">{error}</p>
+            )}
+            <Button
+              type="submit"
+              disabled={isLoggingIn}
+              className="w-full h-14 rounded-2xl bg-primary hover:bg-primary/90 text-white font-bold shadow-md"
+            >
+              {isLoggingIn ? <Loader2 className="h-5 w-5 animate-spin" /> : t.auth.signInBtn}
+            </Button>
+          </form>
+
+          <div className="flex items-center gap-4">
+            <div className="h-px flex-grow bg-border" />
+            <span className="text-xs uppercase tracking-widest text-muted-foreground">{t.auth.orDivider}</span>
+            <div className="h-px flex-grow bg-border" />
+          </div>
+
+          <Button
+            onClick={handleGoogleLogin}
             disabled={isLoggingIn}
             className="w-full h-14 rounded-2xl bg-white border-2 hover:bg-zinc-50 text-zinc-900 font-bold flex items-center justify-center gap-3 shadow-md"
           >
@@ -90,9 +158,9 @@ export default function LoginPage() {
             )}
             {t.auth.googleBtn}
           </Button>
-          
+
           <p className="text-center text-xs text-muted-foreground leading-relaxed">
-            L'accès à cette section est réservé aux administrateurs autorisés de FFG-VE.
+            {t.auth.restricted}
           </p>
         </CardContent>
       </Card>
