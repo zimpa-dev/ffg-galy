@@ -1,0 +1,59 @@
+rules_version = '2';
+
+// Règles de sécurité Firestore pour FFG-Galy
+// - Contenu public : lecture ouverte, écriture réservée aux administrateurs connectés
+// - Données sensibles (bénévoles, dons) : accès réservé aux administrateurs connectés
+//
+// NB : tout utilisateur authentifié via Firebase Auth est considéré comme admin,
+// car seuls les administrateurs disposent d'un compte.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Un utilisateur connecté = un administrateur
+    function isAdmin() {
+      return request.auth != null;
+    }
+
+    // --- Contenu affiché sur le site public ---
+    match /news/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /programs/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /gallery/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /site_content/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /site_settings/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // --- Données réservées à l'administration ---
+    match /volunteers/{doc} {
+      // Ouvrir `create` à tous si un formulaire public d'inscription est ajouté un jour
+      allow read, write: if isAdmin();
+    }
+
+    match /donations/{doc} {
+      allow read, write: if isAdmin();
+    }
+
+    // Tout le reste est refusé par défaut
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
