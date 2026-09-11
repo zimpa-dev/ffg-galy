@@ -5,6 +5,7 @@ import { listPublicDocs } from '@/lib/firestore-rest';
 const staticRoutes: Array<{ path: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'] }> = [
   { path: '/', priority: 1, changeFrequency: 'weekly' },
   { path: '/about', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/blog', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/programs', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/transparency', priority: 0.6, changeFrequency: 'monthly' },
   { path: '/news', priority: 0.8, changeFrequency: 'daily' },

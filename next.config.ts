@@ -9,17 +9,12 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // Legacy URL indexed by Google before this app existed on the
-      // domain (or from an old CMS). Redirect to the equivalent section
-      // instead of serving a 404, and let search engines drop the old URL.
+      // /blog now exists as a real page (see src/app/blog). Only old
+      // sub-paths (e.g. individual posts from a previous site) fall back
+      // to the new blog page instead of a 404.
       {
-        source: '/blog',
-        destination: '/news',
-        permanent: true,
-      },
-      {
-        source: '/blog/:path*',
-        destination: '/news',
+        source: '/blog/:path+',
+        destination: '/blog',
         permanent: true,
       },
     ];
