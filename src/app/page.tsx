@@ -67,7 +67,7 @@ export default function Home() {
           {heroImage && (
             <Image
               src={heroImage}
-              alt="Hero"
+              alt={t.home.heroTitle}
               fill
               className="object-cover brightness-[0.4]"
               priority

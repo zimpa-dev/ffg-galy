@@ -134,13 +134,13 @@ export function Navbar() {
             </Button>
             
             {user ? (
-              <Link href="/admin">
+              <Link href="/admin" rel="nofollow">
                 <Button variant="outline" size="icon" className="rounded-full h-10 w-10" title={t.nav.admin}>
                   <Lock className="h-4 w-4" />
                 </Button>
               </Link>
             ) : (
-              <Link href="/login">
+              <Link href="/login" rel="nofollow">
                 <Button variant="ghost" size="icon" className="rounded-full h-10 w-10 border border-transparent hover:border-border transition-all" title={t.nav.login}>
                   <User className="h-4 w-4" />
                 </Button>
@@ -205,6 +205,7 @@ export function Navbar() {
                   href={user ? "/admin" : "/login"}
                   onClick={() => setIsMenuOpen(false)}
                   className="flex-1"
+                  rel="nofollow"
                 >
                   <Button variant="outline" className="w-full h-12 rounded-2xl gap-2">
                     {user ? <Lock className="h-4 w-4" /> : <User className="h-4 w-4" />}

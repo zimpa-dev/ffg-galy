@@ -94,7 +94,7 @@ export function Footer() {
           <div className="flex flex-wrap justify-center gap-6">
             <Link href="/legal" className="hover:text-white">{t.footer.legal}</Link>
             <Link href="/privacy" className="hover:text-white">{t.footer.privacy}</Link>
-            <Link href="/admin" className="hover:text-secondary flex items-center gap-1 font-bold">
+            <Link href="/admin" rel="nofollow" className="hover:text-secondary flex items-center gap-1 font-bold">
               <Lock className="h-3 w-3" /> {t.nav.admin}
             </Link>
           </div>
