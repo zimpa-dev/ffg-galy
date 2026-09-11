@@ -1,13 +1,26 @@
-import type { Metadata } from 'next';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Impressum',
-  description: 'Impressum und Anbieterkennzeichnung von FFG-VE Horizon gemäß § 5 TMG.',
-  alternates: { canonical: '/legal' },
-  robots: { index: true, follow: true },
-};
+import * as React from "react";
+import { useFirestore, useDoc } from "@/firebase";
+import { doc } from "firebase/firestore";
 
 export default function LegalPage() {
+  const db = useFirestore();
+  const settingsRef = React.useMemo(() => {
+    if (!db) return null;
+    return doc(db, "site_settings", "general");
+  }, [db]);
+  const { data: settings } = useDoc(settingsRef);
+
+  const orgName = settings?.orgName || "FFG-VE Horizon e.V.";
+  const address = settings?.contactAddress || "[Straße, Hausnummer, PLZ, Ort]";
+  const phone = settings?.contactPhone || "[Telefonnummer]";
+  const email = settings?.contactEmail || "contact@ffg-ve.org";
+  const representative = settings?.legalRepresentative || "[Name des/der Vorstandsvorsitzenden]";
+  const registerCourt = settings?.registerCourt || "[Amtsgericht]";
+  const registerNumber = settings?.registerNumber || "[VR-Nummer]";
+  const vatId = settings?.vatId || "[USt-IdNr.]";
+
   return (
     <div className="container mx-auto px-4 py-20 max-w-3xl">
       <h1 className="text-4xl md:text-5xl font-headline font-bold text-primary mb-10">Impressum</h1>
@@ -16,11 +29,9 @@ export default function LegalPage() {
         <section>
           <h2>Angaben gemäß § 5 TMG</h2>
           <p>
-            FFG-VE Horizon e.V.
+            {orgName}
             <br />
-            [Straße und Hausnummer]
-            <br />
-            [PLZ und Ort]
+            {address}
             <br />
             Deutschland
           </p>
@@ -28,15 +39,15 @@ export default function LegalPage() {
 
         <section>
           <h2>Vertreten durch</h2>
-          <p>[Name des/der Vorstandsvorsitzenden]</p>
+          <p>{representative}</p>
         </section>
 
         <section>
           <h2>Kontakt</h2>
           <p>
-            Telefon: [Telefonnummer]
+            Telefon: {phone}
             <br />
-            E-Mail: contact@ffg-ve.org
+            E-Mail: {email}
           </p>
         </section>
 
@@ -45,21 +56,23 @@ export default function LegalPage() {
           <p>
             Eintragung im Vereinsregister.
             <br />
-            Registergericht: [Amtsgericht]
+            Registergericht: {registerCourt}
             <br />
-            Registernummer: [VR-Nummer]
+            Registernummer: {registerNumber}
           </p>
         </section>
 
         <section>
           <h2>Umsatzsteuer-ID</h2>
-          <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz: [USt-IdNr.]</p>
+          <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz: {vatId}</p>
         </section>
 
         <section>
           <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
           <p>
-            [Name, Anschrift wie oben]
+            {representative}
+            <br />
+            {address}
           </p>
         </section>
 

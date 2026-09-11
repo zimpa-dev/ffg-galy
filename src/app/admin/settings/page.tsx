@@ -17,7 +17,8 @@ import {
   ListChecks,
   TrendingUp,
   Heart,
-  Users
+  Users,
+  Scale
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -49,6 +50,10 @@ export default function AdminSettingsPage() {
     contactEmail: "contact@ffg-ve.org",
     contactPhone: "+33 1 23 45 67 89",
     contactAddress: "75001 Paris, France",
+    legalRepresentative: "",
+    registerCourt: "",
+    registerNumber: "",
+    vatId: "",
     donationReasons: [] as string[],
     stats: {
       beneficiaries: "2.5M+",
@@ -68,6 +73,10 @@ export default function AdminSettingsPage() {
         contactEmail: settingsData.contactEmail || "contact@ffg-ve.org",
         contactPhone: settingsData.contactPhone || "+33 1 23 45 67 89",
         contactAddress: settingsData.contactAddress || "75001 Paris, France",
+        legalRepresentative: settingsData.legalRepresentative || "",
+        registerCourt: settingsData.registerCourt || "",
+        registerNumber: settingsData.registerNumber || "",
+        vatId: settingsData.vatId || "",
         donationReasons: settingsData.donationReasons || [],
         stats: settingsData.stats || {
           beneficiaries: "2.5M+",
@@ -184,6 +193,9 @@ export default function AdminSettingsPage() {
           </TabsTrigger>
           <TabsTrigger value="appearance" className="rounded-xl px-6 py-3 data-[state=active]:bg-primary data-[state=active]:text-white transition-all gap-2">
             <Palette className="h-4 w-4" /> Apparence
+          </TabsTrigger>
+          <TabsTrigger value="legal" className="rounded-xl px-6 py-3 data-[state=active]:bg-primary data-[state=active]:text-white transition-all gap-2">
+            <Scale className="h-4 w-4" /> Mentions légales
           </TabsTrigger>
         </TabsList>
 
@@ -458,6 +470,61 @@ export default function AdminSettingsPage() {
                   <p className="text-sm text-muted-foreground">Synchroniser avec les paramètres du système de l'utilisateur.</p>
                 </div>
                 <Switch defaultChecked />
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="legal" className="space-y-6">
+          <Card className="border-none shadow-xl rounded-2xl overflow-hidden">
+            <CardHeader>
+              <div className="flex items-center gap-2 text-primary">
+                <Scale className="h-5 w-5" />
+                <CardTitle>Mentions légales (Impressum)</CardTitle>
+              </div>
+              <CardDescription>
+                Ces informations apparaissent automatiquement sur les pages publiques Impressum et
+                Datenschutz. L'adresse, le téléphone et l'e-mail proviennent de l'onglet « Organisation ».
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label>Représentant légal (Vertreten durch)</Label>
+                  <Input
+                    value={formData.legalRepresentative}
+                    onChange={(e) => setFormData({ ...formData, legalRepresentative: e.target.value })}
+                    placeholder="Ex: Jan Muster, Vorstandsvorsitzender"
+                    className="rounded-xl h-11"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Umsatzsteuer-ID</Label>
+                  <Input
+                    value={formData.vatId}
+                    onChange={(e) => setFormData({ ...formData, vatId: e.target.value })}
+                    placeholder="Ex: DE123456789"
+                    className="rounded-xl h-11"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Registergericht</Label>
+                  <Input
+                    value={formData.registerCourt}
+                    onChange={(e) => setFormData({ ...formData, registerCourt: e.target.value })}
+                    placeholder="Ex: Amtsgericht Berlin"
+                    className="rounded-xl h-11"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Registernummer</Label>
+                  <Input
+                    value={formData.registerNumber}
+                    onChange={(e) => setFormData({ ...formData, registerNumber: e.target.value })}
+                    placeholder="Ex: VR 12345"
+                    className="rounded-xl h-11"
+                  />
+                </div>
               </div>
             </CardContent>
           </Card>

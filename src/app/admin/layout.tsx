@@ -14,7 +14,8 @@ import {
   Menu,
   ExternalLink as ExternalLinkIcon,
   Info,
-  Image as ImageIcon
+  Image as ImageIcon,
+  ShieldCheck
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
@@ -61,6 +62,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: "/admin/gallery", icon: ImageIcon, label: "Galerie" },
     { href: "/admin/volunteers", icon: Users, label: "Bénévoles" },
     { href: "/admin/donations", icon: Coins, label: "Dons" },
+    { href: "/admin/privacy", icon: ShieldCheck, label: "Confidentialité" },
   ]
 
   const SidebarContent = () => (
