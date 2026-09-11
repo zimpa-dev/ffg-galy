@@ -7,6 +7,23 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  async redirects() {
+    return [
+      // Legacy URL indexed by Google before this app existed on the
+      // domain (or from an old CMS). Redirect to the equivalent section
+      // instead of serving a 404, and let search engines drop the old URL.
+      {
+        source: '/blog',
+        destination: '/news',
+        permanent: true,
+      },
+      {
+        source: '/blog/:path*',
+        destination: '/news',
+        permanent: true,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
