@@ -4,15 +4,14 @@ rules_version = '2';
 // - Contenu public : lecture ouverte, écriture réservée aux administrateurs connectés
 // - Données sensibles (bénévoles, dons) : accès réservé aux administrateurs connectés
 //
-// NB : tout utilisateur authentifié via Firebase Auth est considéré comme admin,
-// car seuls les administrateurs disposent d'un compte.
-
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Un utilisateur connecté = un administrateur
+    // L'accès est réservé au compte admin vérifié.
     function isAdmin() {
-      return request.auth != null;
+      return request.auth != null
+        && request.auth.token.email == 'admin@ffg-ve.org'
+        && request.auth.token.email_verified == true;
     }
 
     // --- Contenu affiché sur le site public ---

@@ -26,6 +26,7 @@ import { cn } from "@/lib/utils"
 import { useAuth, useUser } from "@/firebase"
 import { signOut } from "firebase/auth"
 import { Loader2 } from "lucide-react"
+import { isAuthorizedAdmin } from "@/lib/admin-auth"
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
@@ -35,10 +36,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const { user, loading } = useUser()
 
   React.useEffect(() => {
-    if (!loading && !user) {
+    if (!loading && !isAuthorizedAdmin(user)) {
+      if (user && auth) {
+        void signOut(auth)
+      }
       router.replace("/login")
     }
-  }, [loading, user, router])
+  }, [auth, loading, user, router])
 
   const handleLogout = async () => {
     if (auth) {
@@ -47,7 +51,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     router.replace("/login")
   }
 
-  if (loading || !user) {
+  if (loading || !isAuthorizedAdmin(user)) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950">
         <Loader2 className="h-10 w-10 animate-spin text-primary" />
@@ -106,7 +110,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             AD
           </div>
           <div className="flex-grow overflow-hidden">
-            <p className="text-sm font-bold truncate">Admin FFG-VE</p>
+            <p className="text-sm font-bold truncate">Admin Freunde für Galy</p>
             <p className="text-xs text-muted-foreground truncate">admin@ffg-ve.org</p>
           </div>
         </div>

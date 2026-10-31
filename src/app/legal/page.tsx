@@ -12,7 +12,7 @@ export default function LegalPage() {
   }, [db]);
   const { data: settings } = useDoc(settingsRef);
 
-  const orgName = settings?.orgName || "FFG-VE Horizon e.V.";
+  const orgName = settings?.orgName || "Freunde für Galy e.V.";
   const address = settings?.contactAddress || "[Straße, Hausnummer, PLZ, Ort]";
   const phone = settings?.contactPhone || "[Telefonnummer]";
   const email = settings?.contactEmail || "contact@ffg-ve.org";

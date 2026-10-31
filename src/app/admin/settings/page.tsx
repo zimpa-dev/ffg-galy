@@ -43,7 +43,7 @@ export default function AdminSettingsPage() {
   const { data: settingsData, loading } = useDoc(settingsRef);
 
   const [formData, setFormData] = React.useState({
-    orgName: "FFG-VE Horizon",
+    orgName: "Freunde für Galy",
     slogan: "Ensemble pour un monde plus solidaire",
     logoUrl: "",
     heroImageUrl: "",
@@ -66,7 +66,7 @@ export default function AdminSettingsPage() {
   React.useEffect(() => {
     if (settingsData) {
       setFormData({
-        orgName: settingsData.orgName || "FFG-VE Horizon",
+        orgName: settingsData.orgName || "Freunde für Galy",
         slogan: settingsData.slogan || "Ensemble pour un monde plus solidaire",
         logoUrl: settingsData.logoUrl || "",
         heroImageUrl: settingsData.heroImageUrl || "",

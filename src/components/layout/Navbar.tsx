@@ -76,7 +76,7 @@ export function Navbar() {
               </div>
             )}
             <span className="font-headline font-bold text-2xl tracking-tight hidden sm:inline-block">
-              {settings?.orgName || "FFG-VE"}
+              {settings?.orgName || "Freunde für Galy"}
             </span>
           </Link>
 

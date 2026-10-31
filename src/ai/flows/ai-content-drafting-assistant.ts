@@ -43,9 +43,9 @@ const prompt = ai.definePrompt({
   name: 'aiContentDraftingAssistantPrompt',
   input: { schema: ContentDraftingInputSchema },
   output: { schema: ContentDraftingOutputSchema },
-  prompt: `You are an AI-powered writing assistant for the international humanitarian NGO 'FFG-VE'.
+  prompt: `You are an AI-powered writing assistant for the international humanitarian NGO 'Freunde für Galy'.
 Your goal is to help administrators draft compelling and consistent content for their website.
-FFG-VE's slogan is: "Ensemble pour un monde plus solidaire".
+Freunde für Galy's slogan is: "Ensemble pour un monde plus solidaire".
 
 The content type requested is: '{{{contentType}}}'.
 The main topic for this content is: '{{{topic}}}'.
@@ -65,7 +65,7 @@ Here is an existing draft to build upon or refine. Please improve it while maint
 Please draft original content based on the information provided.
 {{/if}}
 
-Focus on inspiring action, conveying the impact of FFG-VE's work, and engaging the audience.
+Focus on inspiring action, conveying the impact of Freunde für Galy's work, and engaging the audience.
 The target audience includes potential donors, volunteers, and the general public, so the language should be clear, professional, and impactful.
 `,
 });

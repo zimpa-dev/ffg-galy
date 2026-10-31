@@ -85,7 +85,7 @@ export default function AboutPage() {
               {historyImage && (
                 <Image
                   src={historyImage}
-                  alt="Impact FFG-VE"
+                  alt="Impact Freunde für Galy"
                   fill
                   className="object-cover"
                 />

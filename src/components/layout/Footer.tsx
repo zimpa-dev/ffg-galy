@@ -32,7 +32,7 @@ export function Footer() {
                 </div>
               )}
               <span className="font-headline font-bold text-2xl">
-                {settings?.orgName || "FFG-VE"}
+                {settings?.orgName || "Freunde für Galy"}
               </span>
             </Link>
             <p className="text-primary-foreground/80 leading-relaxed">
@@ -90,7 +90,7 @@ export function Footer() {
         </div>
 
         <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-primary-foreground/60">
-          <p>© {new Date().getFullYear()} {settings?.orgName || "FFG-VE Horizon"}. {t.footer.rights}</p>
+          <p>© {new Date().getFullYear()} {settings?.orgName || "Freunde für Galy"}. {t.footer.rights}</p>
           <div className="flex flex-wrap justify-center gap-6">
             <Link href="/legal" className="hover:text-white">{t.footer.legal}</Link>
             <Link href="/privacy" className="hover:text-white">{t.footer.privacy}</Link>

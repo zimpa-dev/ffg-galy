@@ -48,7 +48,7 @@ export default function AdminDashboard() {
     <div className="flex flex-col gap-6 md:gap-8 animate-in fade-in duration-500">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl md:text-4xl font-headline font-bold text-foreground">Administration FFG-VE</h1>
+          <h1 className="text-2xl md:text-4xl font-headline font-bold text-foreground">Administration Freunde für Galy</h1>
           <p className="text-muted-foreground text-sm md:text-base">Gérez le contenu et les opérations de votre ONG.</p>
         </div>
         <Link href="/admin/news" className="w-full sm:w-auto">

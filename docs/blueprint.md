@@ -1,4 +1,4 @@
-# **App Name**: FFG-VE Horizon
+# **App Name**: Freunde für Galy
 
 ## Core Features:
 

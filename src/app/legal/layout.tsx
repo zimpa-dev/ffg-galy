@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Impressum',
-  description: 'Impressum und Anbieterkennzeichnung von FFG-VE Horizon gemäß § 5 TMG.',
+  description: 'Impressum und Anbieterkennzeichnung von Freunde für Galy gemäß § 5 TMG.',
   alternates: { canonical: '/legal' },
   robots: { index: true, follow: true },
 };

@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     'Entdecken Sie unsere Einsätze vor Ort in Bildern: Gesundheit, Bildung, Wasser & Hygiene, Nothilfe und Veranstaltungen. Jedes Foto ist ein Fenster zur Solidarität.',
   alternates: { canonical: '/transparency' },
   openGraph: {
-    title: 'Impakt-Galerie | FFG-VE Horizon',
+    title: 'Impakt-Galerie | Freunde für Galy',
     description:
       'Entdecken Sie unsere Einsätze vor Ort in Bildern: Gesundheit, Bildung, Wasser & Hygiene, Nothilfe und Veranstaltungen.',
     url: '/transparency',

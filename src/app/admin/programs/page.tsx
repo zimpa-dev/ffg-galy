@@ -105,7 +105,7 @@ export default function AdminProgramsPage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl md:text-3xl font-headline font-bold">Gestion des Programmes</h1>
-          <p className="text-muted-foreground text-sm">Ajoutez ou modifiez les actions humanitaires de FFG-VE.</p>
+          <p className="text-muted-foreground text-sm">Ajoutez ou modifiez les actions humanitaires de Freunde für Galy.</p>
         </div>
       </div>
 

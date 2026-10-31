@@ -130,7 +130,7 @@ export default function AdminVolunteersPage() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-headline font-bold">Gestion des Bénévoles</h1>
-          <p className="text-muted-foreground text-sm">Consultez et gérez les engagements citoyens pour FFG-VE.</p>
+          <p className="text-muted-foreground text-sm">Consultez et gérez les engagements citoyens pour Freunde für Galy.</p>
         </div>
         <div className="flex gap-4 w-full md:w-auto">
           <div className="bg-white dark:bg-zinc-900 p-3 rounded-2xl shadow-sm border flex items-center gap-3">

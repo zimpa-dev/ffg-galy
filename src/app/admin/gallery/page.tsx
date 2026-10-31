@@ -170,7 +170,7 @@ export default function AdminGalleryPage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-headline font-bold">Gestion de la Galerie</h1>
-          <p className="text-muted-foreground text-sm">Ajoutez les moments forts de FFG-VE. Regroupez plusieurs photos d'un même événement.</p>
+          <p className="text-muted-foreground text-sm">Ajoutez les moments forts de Freunde für Galy. Regroupez plusieurs photos d'un même événement.</p>
         </div>
       </div>
 

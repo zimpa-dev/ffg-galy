@@ -3,12 +3,12 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Aktuelles & Berichte',
   description:
-    'Verfolgen Sie die tägliche Arbeit von FFG-VE Horizon und entdecken Sie die Gesichter der Solidarität in unseren aktuellen Berichten und Nachrichten.',
+    'Verfolgen Sie die tägliche Arbeit von Freunde für Galy und entdecken Sie die Gesichter der Solidarität in unseren aktuellen Berichten und Nachrichten.',
   alternates: { canonical: '/news' },
   openGraph: {
-    title: 'Aktuelles & Berichte | FFG-VE Horizon',
+    title: 'Aktuelles & Berichte | Freunde für Galy',
     description:
-      'Verfolgen Sie die tägliche Arbeit von FFG-VE Horizon und entdecken Sie die Gesichter der Solidarität.',
+      'Verfolgen Sie die tägliche Arbeit von Freunde für Galy und entdecken Sie die Gesichter der Solidarität.',
     url: '/news',
   },
 };

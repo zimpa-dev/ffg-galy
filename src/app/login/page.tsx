@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useLanguage } from "@/components/language-provider";
 import Link from "next/link";
+import { isAuthorizedAdmin } from "@/lib/admin-auth";
 
 export default function LoginPage() {
   const auth = useAuth();
@@ -24,10 +25,14 @@ export default function LoginPage() {
   const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    if (user) {
+    if (user && isAuthorizedAdmin(user)) {
       router.push('/admin');
     }
-  }, [user, router]);
+    if (user && !isAuthorizedAdmin(user) && auth) {
+      void auth.signOut();
+      setError("Ce compte n'est pas autorisé à accéder à l'administration.");
+    }
+  }, [auth, user, router]);
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,7 +40,12 @@ export default function LoginPage() {
     setError(null);
     setIsLoggingIn(true);
     try {
-      await signInWithEmailAndPassword(auth, email.trim(), password);
+      const credential = await signInWithEmailAndPassword(auth, email.trim(), password);
+      if (!isAuthorizedAdmin(credential.user)) {
+        await auth.signOut();
+        setError("Ce compte n'est pas autorisé à accéder à l'administration.");
+        return;
+      }
       router.push('/admin');
     } catch (err: any) {
       const code = err?.code ?? "unknown";
@@ -60,7 +70,12 @@ export default function LoginPage() {
     setIsLoggingIn(true);
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      const credential = await signInWithPopup(auth, provider);
+      if (!isAuthorizedAdmin(credential.user)) {
+        await auth.signOut();
+        setError("Ce compte n'est pas autorisé à accéder à l'administration.");
+        return;
+      }
       router.push('/admin');
     } catch (err) {
       console.error("Login failed", err);

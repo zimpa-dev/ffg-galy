@@ -18,7 +18,7 @@ export const translations = {
     home: {
       slogan: "Gemeinsam für eine solidarischere Welt",
       heroTitle: "Leben verändern, Zukunft bauen",
-      heroSubtitle: "FFG-VE steht an vorderster Front der humanitären Hilfe und bringt Hoffnung und Würde zu den schwächsten Gemeinschaften weltweit.",
+      heroSubtitle: "Freunde für Galy steht an vorderster Front der humanitären Hilfe und bringt Hoffnung und Würde zu den schwächsten Gemeinschaften weltweit.",
       btnDonate: "Jetzt Spenden",
       btnVolunteer: "Freiwilliger werden",
       stats: {
@@ -35,7 +35,7 @@ export const translations = {
     },
     about: {
       heroTitle: "Unser Engagement",
-      heroSubtitle: "Gegründet 2005, entspringt FFG-VE einer einfachen Vision: Kein Leid sollte unbeantwortet bleiben.",
+      heroSubtitle: "Gegründet 2005, entspringt Freunde für Galy einer einfachen Vision: Kein Leid sollte unbeantwortet bleiben.",
       historyTitle: "Eine Geschichte der Solidarität",
       missionTitle: "Unsere Mission",
       visionTitle: "Unsere Vision",
@@ -81,12 +81,12 @@ export const translations = {
       signInBtn: "Anmelden",
       orDivider: "oder",
       errorInvalid: "Falsche E-Mail oder falsches Passwort.",
-      restricted: "Der Zugang zu diesem Bereich ist autorisierten Administratoren von FFG-VE vorbehalten.",
+      restricted: "Der Zugang zu diesem Bereich ist autorisierten Administratoren von Freunde für Galy vorbehalten.",
       logout: "Abmelden",
       checkingAccess: "Zugang wird geprüft …"
     },
     aboutPage: {
-      badge: "Über FFG-VE",
+      badge: "Über Freunde für Galy",
       historyText: "Heute sind wir eine Kraft des Wandels in über 35 Ländern. Wir arbeiten vor Ort mit den lokalen Gemeinschaften zusammen, um die Nachhaltigkeit jedes Projekts zu gewährleisten.",
       missionText: "Ressourcen mobilisieren, um auf humanitäre Notlagen zu reagieren und die Bevölkerung auf dem Weg in die Eigenständigkeit zu begleiten.",
       visionText: "Eine Welt, in der jeder Mensch Zugang zu den Grundrechten hat: Bildung, Gesundheit und eine nachhaltige Umwelt.",
@@ -149,8 +149,8 @@ export const translations = {
       detailHelpText: "Ihre finanzielle Unterstützung ermöglicht es uns, weiter Zeugnis abzulegen und vor Ort für die Schwächsten zu handeln.",
       detailDonateBtn: "Jetzt Spenden",
       detailAboutAuthor: "Über den Autor",
-      detailAuthorRole: "Humanitärer Experte FFG-VE",
-      detailAuthorBio: "Berichtet über die Wirkung der FFG-VE-Einsätze weltweit, um eine stärkere Solidarität zu wecken."
+      detailAuthorRole: "Humanitärer Experte von Freunde für Galy",
+      detailAuthorBio: "Berichtet über die Wirkung der Einsätze von Freunde für Galy weltweit, um eine stärkere Solidarität zu wecken."
     },
     donatePage: {
       title: "Jede Geste zählt.",
@@ -245,7 +245,7 @@ export const translations = {
     },
     volunteerPage: {
       title: "Werden Sie Freiwillige:r",
-      subtitle: "Ihre Zeit ist wertvoll. Stellen Sie Ihre Fähigkeiten in den Dienst einer guten Sache und begleiten Sie das Abenteuer FFG-VE.",
+      subtitle: "Ihre Zeit ist wertvoll. Stellen Sie Ihre Fähigkeiten in den Dienst einer guten Sache und begleiten Sie das Abenteuer von Freunde für Galy.",
       whyJoin: "Warum mitmachen?",
       formTitle: "Bewerbungsformular",
       formDesc: "Füllen Sie die folgenden Angaben aus, um sich zu bewerben.",
@@ -305,7 +305,7 @@ export const translations = {
     home: {
       slogan: "Together for a more solidary world",
       heroTitle: "Changing Lives, Building the Future",
-      heroSubtitle: "FFG-VE is at the forefront of humanitarian action, bringing hope and dignity to the world's most vulnerable communities.",
+      heroSubtitle: "Freunde für Galy is at the forefront of humanitarian action, bringing hope and dignity to the world's most vulnerable communities.",
       btnDonate: "Donate Now",
       btnVolunteer: "Become a Volunteer",
       stats: {
@@ -322,7 +322,7 @@ export const translations = {
     },
     about: {
       heroTitle: "Our Commitment",
-      heroSubtitle: "Founded in 2005, FFG-VE was born from a simple vision: no suffering should go unanswered.",
+      heroSubtitle: "Founded in 2005, Freunde für Galy was born from a simple vision: no suffering should go unanswered.",
       historyTitle: "A Story of Solidarity",
       missionTitle: "Our Mission",
       visionTitle: "Our Vision",
@@ -368,12 +368,12 @@ export const translations = {
       signInBtn: "Sign in",
       orDivider: "or",
       errorInvalid: "Incorrect email or password.",
-      restricted: "Access to this section is reserved for authorized FFG-VE administrators.",
+      restricted: "Access to this section is reserved for authorized Freunde für Galy administrators.",
       logout: "Logout",
       checkingAccess: "Checking access …"
     },
     aboutPage: {
-      badge: "About FFG-VE",
+      badge: "About Freunde für Galy",
       historyText: "Today we are a force for change in more than 35 countries. We work on the ground with local communities to ensure the sustainability of every project.",
       missionText: "Mobilize resources to respond to humanitarian emergencies and support communities on their path to self-reliance.",
       visionText: "A world where every individual has access to fundamental rights: education, health and a sustainable environment.",
@@ -436,8 +436,8 @@ export const translations = {
       detailHelpText: "Your financial support allows us to keep bearing witness and acting on the ground for the most vulnerable.",
       detailDonateBtn: "Donate Now",
       detailAboutAuthor: "About the author",
-      detailAuthorRole: "FFG-VE Humanitarian Expert",
-      detailAuthorBio: "Tells the story of FFG-VE missions around the world to inspire stronger solidarity."
+      detailAuthorRole: "Freunde für Galy Humanitarian Expert",
+      detailAuthorBio: "Tells the story of Freunde für Galy missions around the world to inspire stronger solidarity."
     },
     donatePage: {
       title: "Every gesture counts.",
@@ -532,7 +532,7 @@ export const translations = {
     },
     volunteerPage: {
       title: "Become a Volunteer",
-      subtitle: "Your time is precious. Put your skills at the service of a noble cause and join the FFG-VE adventure.",
+      subtitle: "Your time is precious. Put your skills at the service of a noble cause and join the Freunde für Galy adventure.",
       whyJoin: "Why join us?",
       formTitle: "Application Form",
       formDesc: "Fill in the information below to apply.",
@@ -592,7 +592,7 @@ export const translations = {
     home: {
       slogan: "Ensemble pour un monde plus solidaire",
       heroTitle: "Changeons des vies, bâtissons l'avenir",
-      heroSubtitle: "FFG-VE est aux premières lignes de l'action humanitaire, apportant espoir et dignité aux communautés les plus vulnérables du monde entier.",
+      heroSubtitle: "Freunde für Galy est aux premières lignes de l'action humanitaire, apportant espoir et dignité aux communautés les plus vulnérables du monde entier.",
       btnDonate: "Faire un don",
       btnVolunteer: "Devenir bénévole",
       stats: {
@@ -609,7 +609,7 @@ export const translations = {
     },
     about: {
       heroTitle: "Notre Engagement",
-      heroSubtitle: "Fondée en 2005, FFG-VE est née d'une vision simple : aucune souffrance ne devrait rester sans réponse.",
+      heroSubtitle: "Fondée en 2005, Freunde für Galy est née d'une vision simple : aucune souffrance ne devrait rester sans réponse.",
       historyTitle: "Une Histoire de Solidarité",
       missionTitle: "Notre Mission",
       visionTitle: "Notre Vision",
@@ -655,12 +655,12 @@ export const translations = {
       signInBtn: "Se connecter",
       orDivider: "ou",
       errorInvalid: "Email ou mot de passe incorrect.",
-      restricted: "L'accès à cette section est réservé aux administrateurs autorisés de FFG-VE.",
+      restricted: "L'accès à cette section est réservé aux administrateurs autorisés de Freunde für Galy.",
       logout: "Déconnexion",
       checkingAccess: "Vérification de l'accès…"
     },
     aboutPage: {
-      badge: "À propos de FFG-VE",
+      badge: "À propos de Freunde für Galy",
       historyText: "Aujourd'hui, nous sommes une force de changement dans plus de 35 pays. Nous agissons sur le terrain avec les communautés locales pour garantir la pérennité de chaque projet.",
       missionText: "Mobiliser les ressources pour répondre aux urgences humanitaires et accompagner les populations vers l'autonomie.",
       visionText: "Un monde où chaque individu a accès aux droits fondamentaux : éducation, santé et environnement durable.",
@@ -723,8 +723,8 @@ export const translations = {
       detailHelpText: "Votre soutien financier nous permet de continuer à témoigner et à agir sur le terrain pour les plus vulnérables.",
       detailDonateBtn: "Faire un don",
       detailAboutAuthor: "À propos de l'auteur",
-      detailAuthorRole: "Expert Humanitaire FFG-VE",
-      detailAuthorBio: "Raconte l'impact des missions FFG-VE à travers le monde pour inspirer une solidarité plus forte."
+      detailAuthorRole: "Expert Humanitaire de Freunde für Galy",
+      detailAuthorBio: "Raconte l'impact des missions de Freunde für Galy à travers le monde pour inspirer une solidarité plus forte."
     },
     donatePage: {
       title: "Chaque geste compte.",
@@ -819,7 +819,7 @@ export const translations = {
     },
     volunteerPage: {
       title: "Devenez Bénévole",
-      subtitle: "Votre temps est précieux. Mettez vos compétences au service d'une cause noble et rejoignez l'aventure FFG-VE.",
+      subtitle: "Votre temps est précieux. Mettez vos compétences au service d'une cause noble et rejoignez l'aventure Freunde für Galy.",
       whyJoin: "Pourquoi nous rejoindre ?",
       formTitle: "Formulaire de Candidature",
       formDesc: "Remplissez les informations ci-dessous pour postuler.",

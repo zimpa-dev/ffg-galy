@@ -184,7 +184,7 @@ export default function AdminNewsPage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-headline font-bold">Gestion des Actualités</h1>
-          <p className="text-muted-foreground text-sm">Rédigez et publiez les récits qui font l'histoire de FFG-VE.</p>
+          <p className="text-muted-foreground text-sm">Rédigez et publiez les récits qui font l'histoire de Freunde für Galy.</p>
         </div>
       </div>
 

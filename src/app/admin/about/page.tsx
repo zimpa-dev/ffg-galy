@@ -226,7 +226,7 @@ export default function AdminAboutManagementPage() {
           <Card className="border-none shadow-xl rounded-2xl overflow-hidden">
             <CardHeader>
               <CardTitle>Récit Historique</CardTitle>
-              <CardDescription>Racontez la genèse de FFG-VE pour inspirer vos visiteurs.</CardDescription>
+              <CardDescription>Racontez la genèse de Freunde für Galy pour inspirer vos visiteurs.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <Label>Contenu textuel (Mise en forme libre)</Label>

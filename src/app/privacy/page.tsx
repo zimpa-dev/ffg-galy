@@ -55,7 +55,7 @@ export default function PrivacyPage() {
   }, [db]);
   const { data: privacyContent } = useDoc(privacyRef);
 
-  const orgName = settings?.orgName || "FFG-VE Horizon e.V.";
+  const orgName = settings?.orgName || "Freunde für Galy e.V.";
   const address = settings?.contactAddress || "[Straße, Hausnummer, PLZ, Ort]";
   const email = settings?.contactEmail || "contact@ffg-ve.org";
 

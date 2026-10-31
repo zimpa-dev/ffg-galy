@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     'Wir handeln über strukturierte Programme in Bildung, Gesundheit, Wasser & Hygiene sowie Nothilfe, um Grundbedürfnisse zu decken und eine eigenständige Zukunft vorzubereiten.',
   alternates: { canonical: '/programs' },
   openGraph: {
-    title: 'Unsere Programme | FFG-VE Horizon',
+    title: 'Unsere Programme | Freunde für Galy',
     description:
       'Wir handeln über strukturierte Programme in Bildung, Gesundheit, Wasser & Hygiene sowie Nothilfe, um eine eigenständige Zukunft vorzubereiten.',
     url: '/programs',
